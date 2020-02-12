@@ -32,30 +32,35 @@ The mod is currently in development, save files will be incompatible which each 
 
 For players:
 
-1: You must have 1.0 version installed (steam version is not compatible, you need to downgrade it)
+1. You must have 1.0 version installed (steam version is not compatible, you need to downgrade it)
 
-2: You must install the following mods: ModLoader, CLEO for GTA III; Optional, but recommended: SilentPatch, Widescreen Fix
+2. You must install the following mods: ModLoader, CLEO for GTA III; Optional, but recommended: SilentPatch, Widescreen Fix
 
-3: Enjoy
+3. Enjoy
 
 For developers:
 
-1: Install Sanny Builder 3
+1. Sanny Builder 3
 
-2: Clone the repo
+2. ModLoader
 
-3: Copy and replace scm.ini, opcodes.txt and keywords.txt in your Sanny Builder 3 directory/data/gta3 directory.
+3. CLEO for GTA 3
 
-4. Open GTA3 Mission Pack #1.txt
+Install instructions:
 
-5. Make sure the other files are here and hit compile (NOT compile and copy!).
+1. Clone the repo
 
-6. You should get GTA3 Mission Pack #1.scm in the same folder as the text file.
+2. Copy and replace scm.ini, opcodes.txt and keywords.txt in your Sanny Builder 3 directory/data/gta3 directory.
 
-7. Rename the file to main.scm and move it to: modloader/adayinliberty with overwriting the original
+3. Open GTA3 Mission Pack #1.txt
 
-8. Run the game
+4. Make sure the other files are here and hit compile (NOT compile and copy!).
 
+5. You should get GTA3 Mission Pack #1.scm in the same folder as the text file.
+
+6. Rename the file to main.scm and move it to: modloader/adayinliberty with overwriting the original files
+
+7. Run the game and edit stuff in Sanny Builder :)
 
 # Installation:
 
