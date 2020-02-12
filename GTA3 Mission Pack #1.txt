@@ -1,0 +1,1268 @@
+// complete by Demarest
+DEFINE OBJECTS 3
+DEFINE OBJECT (noname)                
+DEFINE OBJECT INDHELIX_BARRIER         // Object number -1
+DEFINE OBJECT LOD_LAND014              // Object number -2
+
+DEFINE MISSIONS 10
+DEFINE MISSION 0 AT @CALL1
+DEFINE MISSION 1 AT @CALL2
+DEFINE MISSION 2 AT @ODD1
+DEFINE MISSION 3 AT @ODD2
+DEFINE MISSION 4 AT @ODD3
+DEFINE MISSION 5 AT @EIGHT1
+DEFINE MISSION 6 AT @EIGHT2
+DEFINE MISSION 7 AT @ODD4
+DEFINE MISSION 8 AT @EIGHT3
+DEFINE MISSION 9 AT @EIGHT4
+//DEFINE MISSION 3 AT @CAT1_5482
+
+//-------------MAIN---------------
+03A4: name_thread 'MAIN'
+016A: fade 0 0 ms
+01F0: set_max_wanted_level_to 6 
+set_wb_check_to 0
+03CB: set_camera 887.0399 -307.5607 8.5774
+0169: set_fade_color 0 0 0 
+00C0: set_current_time 12 0 
+03F7: load_island_data 0  
+0373: set_camera_directly_behind_player 
+0363: toggle_model_render_at 1027.25 -933.7499 15.0 radius 50.0 object #INDHELIX_BARRIER 0 
+03B6: replace_model_at 1027.25 -933.7499 15.0 radius 50.0 from #INDHELIX_BARRIER to #LOD_LAND014 
+01B6: set_weather 0 
+034B: staunton_complete 
+0180: set_on_mission_flag_to $ONMISSION
+029B: $PLAYER_DOOR = init_object #PLAYERSDOOR at 890.875 -307.6875 8.75 
+01C7: remove_object_from_mission_cleanup_list $PLAYER_DOOR 
+029B: $STAUNTON_HIDEOUT_DOOR1 = init_object #PLYSAV_LFTDR_LFT at 103.8125 -482.75 16.25 
+01C7: remove_object_from_mission_cleanup_list $STAUNTON_HIDEOUT_DOOR1 
+029B: $STAUNTON_HIDEOUT_DOOR2 = init_object #PLYSAV_LFTDR_RGHT at 102.1875 -482.75 16.25 
+01C7: remove_object_from_mission_cleanup_list $STAUNTON_HIDEOUT_DOOR2 
+SET_OBJECT_Z_ANGLE $STAUNTON_HIDEOUT_DOOR2 180.0
+029B: $56 = init_object #NEWTOWERDOOR1 at -664.3125 2.875 19.5 
+01C7: remove_object_from_mission_cleanup_list $56 
+0177: set_object $56 z_angle_to 180.0
+{$INCLUDE INITOBJECT.sc}
+{$INCLUDE PICKUPS.sc}
+{$INCLUDE CARS.sc}
+
+01EB: set_car_density_to 1.0 
+SET_PED_DENSITY 1.0 
+03E5: show_text_box 'MPACK'
+018D: $111 = create_sound 41 at 850.75 -663.6875 15.0 
+018D: $112 = create_sound 42 at 913.5625 -805.5 15.0 
+018D: $113 = create_sound 53 at 970.0 -674.75 15.0 
+018D: $114 = create_sound 53 at 975.0625 -724.0 15.0 
+018D: $115 = create_sound 44 at 1220.0 -310.0 32.0 
+018D: $116 = create_sound 48 at 1318.375 -463.5625 57.0 
+018D: $123 = create_sound 57 at 1579.75 -655.1875 13.0 
+018D: $124 = create_sound 57 at 1504.75 -873.1875 19.0 
+018D: $125 = create_sound 59 at 962.25 -259.6875 10.0 
+018D: $126 = create_sound 7 at 952.5 -148.1875 8.0 
+018D: $127 = create_sound 5 at 861.5 -247.1875 8.0 
+018D: $128 = create_sound 60 at 1469.0 -181.0 56.0 
+018D: $129 = create_sound 37 at 1120.688 -1023.25 23.0 
+018D: $130 = create_sound 51 at -744.6875 -604.0625 10.0 
+0053: $PLAYER_CHAR = create_player #NULL at 887.0399 -307.5607 20.5774
+0171: set_player $PLAYER_CHAR z_angle_to 92.0
+01F5: $PLAYER_ACTOR = create_emulated_actor_from_player $PLAYER_CHAR
+0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER' 
+0353: refresh_actor $PLAYER_ACTOR 
+01B4: set_player $PLAYER_CHAR frozen_state 1 
+0173: set_actor $PLAYER_ACTOR z_angle_to 92.0
+01B7: release_weather 
+0109: player $PLAYER_CHAR money += $PLAYER_CHAR 
+0054: store_player $PLAYER_CHAR position_to $var1 $var2 $var3
+0213: $ALLEGRI_PICKUP1 = create_pickup #BODYARMOUR type 14 at 1166.6113 -550.179 21.5984 
+wait 4000
+02A7: $PORTLAND_MISSION_MARKER1 = create_icon_marker_and_sphere 8 at 938.4176 -230.3259 4.943
+//02A7: $PORTLAND_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 1150.1073 -454.2015 20.648        // COMMENT IF RELEASE
+02A7: $STAUNTON_MISSION_MARKER1 = create_icon_marker_and_sphere 7 at 374.3439 -568.5399 25.1748         // COMMENT IF RELEASE
+02A7: $STAUNTON_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 196.8638 -628.8686 25.1673        // COMMENT IF RELEASE
+02A7: $STAUNTON_MISSION_MARKER3 = create_icon_marker_and_sphere 9 at 79.9823 -958.9354 25.1681
+
+/* PROPERTY ICONS */
+02A7: $PROPERTY_ICON0 = create_icon_marker_and_sphere 19 at 158.3013 -1011.3917 26.0
+02A7: $PROPERTY_ICON1 = create_icon_marker_and_sphere 19 at 397.4659 -1195.2642 26.0
+018B: show_on_radar $PROPERTY_ICON0 2
+018B: show_on_radar $PROPERTY_ICON1 2
+/* END PROPERTY ICONS */
+
+/* PROPERTY VARS */
+$PROPERTY0_BOUGHT = 0
+$PROPERTY1_BOUGHT = 0
+
+fade 1 1000
+014D: text_pager 'MPINTR' 140 2 0
+$FLAG_P2_BADGER = 0
+$FLAG_8BALL_PAGER = 0
+0177: set_object $PLAYER_DOOR z_angle_to 244.0
+0223: set_actor $PLAYER_ACTOR health_to 100
+0222: set_player $PLAYER_CHAR health_to 100
+$PORTLAND_P1_COMPLETED = 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
+$STAUNTON_P2_COMPLETED = 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
+$FLAG_PORTLAND_SAVE_ON_RADAR = 0 // integer values 
+$FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values 
+$FLAG_SHORESIDE_SAVE_ON_RADAR = 0
+$FLAG_STAUNTON_OPEN = 1 
+$FLAG_SHORESIDE_OPEN = 1     
+$PORTLAND_PLAYER_HAUNT = 1  // was 1    // MUST BE FALSE ( ZERO ) ON RELEASE !!
+$PROPERTIES_AVAILABLE = 1  // was 1     // MUST BE FALSE ( ZERO ) ON RELEASE !!
+
+$STAUNTON_BONUS_MISSION0 = 0 // was 1 // MUST BE ZERO ON RELEASE
+
+0318: set_latest_mission_passed 'NOMIS'
+0109: player $PLAYER_CHAR money += 25000
+REQUEST_MODEL #INFERNUS
+LOAD_REQUESTED_MODELS
+
+:MAIN_MODEL_AVAILABLE
+repeat
+wait 0
+until 0248:   model #INFERNUS available
+00A5: $ALLEGRI_BONUS = create_car #INFERNUS at 858.6524 -313.2243 9.0762
+0175: set_car $ALLEGRI_BONUS z_angle_to 280.0
+01C3: remove_references_to_car $ALLEGRI_BONUS
+RELEASE_MODEL #INFERNUS 
+
+   0055: put_player $PLAYER_CHAR at 354.3439 -568.5399 25.1748 // COMMENT IF DONE WITH STAUNTON !!!!! 
+//0055: put_player $PLAYER_CHAR at -661.3479 687.7099 105.6733
+ 010D: set_player $PLAYER_CHAR wanted_level_to 0 // COMMENT IF DONE WITH STAUNTON !!!!!
+0110: clear_player $PLAYER_CHAR wanted_level   // COMMENT IF DONE WITH STAUNTON !!!!!
+
+//0213: $TESTPSAVE = create_pickup #PSAVE type 1 at 119.7002 -477.0096 15.9403  // BUGS OUT ! SILENT HELP!
+ 
+create_thread @PROP
+create_thread @PROPM
+create_thread_wb @MISTRG
+create_thread @PCOPS
+create_thread @I_SAVE
+create_thread @I_RSTRT
+create_thread @C_SAVE
+create_thread @C_RSTRT
+create_thread @S_SAVE
+create_thread @S_RSTRT
+
+:MAIN_138
+0001: wait 250 ms 
+0002: jump @MAIN_138 
+
+:PROP
+thread 'PROP'
+if
+$PROPERTIES_AVAILABLE == 1
+jf @PROP_END
+// if player have bought any properties, don't spawn the briefcase pickup
+
+if
+$PROPERTY0_BOUGHT == 0
+then
+0213: $PROPERTY_PICKUP0 = create_pickup #BRIEFCASE type 3 at 158.3013 -1011.3917 26.0
+end
+
+if
+$PROPERTY1_BOUGHT == 0
+then
+0213: $PROPERTY_PICKUP1 = create_pickup #BRIEFCASE type 3 at 397.4659 -1195.2642 26.1682
+end
+
+018B: show_on_radar $PROPERTY_ICON0 2
+
+
+:PROP_LOOP
+wait 0
+
+if and
+$PROPERTY0_BOUGHT == 0
+0214:   pickup $PROPERTY_PICKUP0 picked_up
+then
+goto @PROP_1CONF
+end
+
+if and
+$PROPERTY1_BOUGHT == 0
+0214:   pickup $PROPERTY_PICKUP1 picked_up
+then
+goto @PROP_2CONF
+end
+
+goto @PROP_LOOP
+
+/* FIRST PROPERTY */
+                  
+:PROP_1CONF
+wait 0
+    if
+        $ONMISSION == 1
+    then
+        03E5: show_text_box 'PROPWOR'
+        goto @PROP_CLEANUP
+    else
+        if
+            010A:   player $PLAYER_CHAR money > 19999
+        then 
+            01B4: set_player $PLAYER_CHAR control 0
+            01E5: show_text_1number_highpriority GXT 'PROP1' number 20000 time 5000 flag 1 
+            goto @PROP_1CONF_KEY
+        else
+            03E5: show_text_box 'PROPNO'
+            goto @PROP_CLEANUP
+        end
+    end
+
+:PROP_1CONF_KEY
+wait 0
+16@ = 0
+
+if
+16@ > 4999
+then
+01E5: show_text_1number_highpriority GXT 'PROP1' number 20000 time 5000 flag 1 
+16@ = 0
+end 
+
+if
+00E1:   player 0 pressed_button 19
+then
+0109: player $PLAYER_CHAR money += -20000
+0169: set_fade_color 0 0 0
+fade 0 1500
+wait 1500
+TOGGLE_WIDESCREEN TRUE
+015F: set_camera_position 150.9439 -1015.716 26.0182 rotation 0.0 0.0 0.0
+0160: point_camera 159.5077 -991.7161 31.0909 switchstyle 2
+fade 1 1500
+wait 1500
+TEXT_CLEAR_ALL
+wait 500
+00BA: show_text_styled GXT 'PROPBUY' time 3000 style 5  // Text
+0394: play_music 1
+wait 3000
+01E4: text_1number_lowpriority 'PROP3' 30000 5000 ms 1
+wait 5000
+TOGGLE_WIDESCREEN FALSE
+0373: set_camera_directly_behind_player
+RESTORE_CAMERA
+$PROPERTY0_BOUGHT = 1
+goto @PROP_CLEANUP
+end
+
+goto @PROP_1CONF_KEY
+
+/* SECOND PROPERTY */
+
+:PROP_2CONF
+wait 0
+    if
+        $ONMISSION == 1
+    then
+        03E5: show_text_box 'PROPWOR'
+        goto @PROP_CLEANUP
+    else
+        if
+            010A:   player $PLAYER_CHAR money > 34999
+        then 
+            01B4: set_player $PLAYER_CHAR control 0
+            01E5: show_text_1number_highpriority GXT 'PROP1' number 35000 time 5000 flag 1 
+            goto @PROP_2CONF_KEY
+        else
+            03E5: show_text_box 'PROPNO'
+            goto @PROP_CLEANUP
+        end
+    end
+
+:PROP_2CONF_KEY
+wait 0
+16@ = 0
+
+if
+16@ > 4999
+then
+01E5: show_text_1number_highpriority GXT 'PROP1' number 35000 time 5000 flag 1 
+16@ = 0
+end 
+
+if
+00E1:   player 0 pressed_button 19
+then
+0109: player $PLAYER_CHAR money += -20000
+0169: set_fade_color 0 0 0
+fade 0 1500
+wait 1500
+TOGGLE_WIDESCREEN TRUE
+015F: set_camera_position 420.7668 -1223.8219 31.1652 rotation 0.0 0.0 0.0
+0160: point_camera 397.9051 -1160.1255 57.0936 switchstyle 2
+fade 1 1500
+wait 1500
+TEXT_CLEAR_ALL
+wait 500
+00BA: show_text_styled GXT 'PROPBUY' time 3000 style 5  // Text
+0394: play_music 1
+wait 3000
+01E4: text_1number_lowpriority 'PROP3' 50000 5000 ms 1
+wait 5000
+TOGGLE_WIDESCREEN FALSE
+0373: set_camera_directly_behind_player
+RESTORE_CAMERA
+$PROPERTY1_BOUGHT = 1
+goto @PROP_CLEANUP
+end
+
+if
+00E1:   player 0 pressed_button 15
+then
+goto @PROP_CLEANUP
+end
+
+goto @PROP_2CONF_KEY
+
+:PROP_CLEANUP
+TEXT_CLEAR_ALL
+01B4: set_player $PLAYER_CHAR control 1
+0215: destroy_pickup $PROPERTY_PICKUP0
+wait 3000
+goto @PROP
+
+:PROP_END
+018B: show_on_radar $PROPERTY_ICON0 0
+end_thread
+
+:PROPM
+thread 'PROPM'
+$PROPERTY0_MONEY = 0
+$PROPERTY1_MONEY = 0
+$FLAG_PROPERTY0_MONEYPICKUP = 0
+$FLAG_PROPERTY1_MONEYPICKUP = 0
+$PROP_TIME = 0
+$PROP2_TIME = 0
+
+:PROPM_LOOP
+wait 0
+
+if and
+$PROPERTIES_AVAILABLE == 1
+$PROPERTY0_BOUGHT == 1
+$FLAG_PROPERTY0_MONEYPICKUP == 0
+then
+$FLAG_PROPERTY0_MONEYPICKUP = 1
+0213: 0@ = create_pickup #MONEY type 3 at 158.4647 -1016.8173 26.1682
+end
+
+if and
+$PROPERTIES_AVAILABLE == 1
+$PROPERTY1_BOUGHT == 1
+$FLAG_PROPERTY1_MONEYPICKUP == 0
+then
+$FLAG_PROPERTY1_MONEYPICKUP = 1
+0213: 1@ = create_pickup #MONEY type 3 at 395.5382 -1198.8009 26.1827
+end
+
+if
+$PROPERTY0_BOUGHT == 1
+then
+//01E5: show_text_1number_highpriority GXT 'NUMBER' number $PROP_TIME time 5000 flag 1
+$PROP_TIME += 5
+end
+
+if
+$PROPERTY1_BOUGHT == 1
+then
+//01E5: show_text_1number_highpriority GXT 'NUMBER' number $PROP_TIME time 5000 flag 1
+$PROP2_TIME += 5
+end
+
+if and
+$PROPERTY0_BOUGHT == 1
+$PROP_TIME > 1000
+then
+    if
+        $PROPERTY0_MONEY < 30000
+    then
+        $PROPERTY0_MONEY += 500
+    end
+    
+    $PROP_TIME = 0
+end
+
+if and
+$PROPERTY1_BOUGHT == 1
+$PROP2_TIME > 1000
+then
+    if
+        $PROPERTY1_MONEY < 50000
+    then
+        $PROPERTY1_MONEY += 1000
+    end
+    
+    $PROP2_TIME = 0
+end
+
+if
+$PROPERTIES_AVAILABLE == 1
+then
+    if
+        0214:   pickup 0@ picked_up
+    then
+        if and
+            $PROPERTY0_BOUGHT == 1
+            $FLAG_PROPERTY0_MONEYPICKUP == 1
+        then
+            0109: player $PLAYER_CHAR money += $PROPERTY0_MONEY
+            $FLAG_PROPERTY0_MONEYPICKUP = 0
+            01E5: show_text_1number_highpriority GXT 'PROP5' number $PROPERTY0_MONEY time 5000 flag 1  
+            wait 5000
+            goto @PROPM
+        end
+    end 
+    
+    if
+        0214:   pickup 1@ picked_up
+    then
+        if and
+            $PROPERTY1_BOUGHT == 1
+            $FLAG_PROPERTY1_MONEYPICKUP == 1
+        then
+            0109: player $PLAYER_CHAR money += $PROPERTY1_MONEY
+            $FLAG_PROPERTY1_MONEYPICKUP = 0
+            01E5: show_text_1number_highpriority GXT 'PROP5' number $PROPERTY1_MONEY time 5000 flag 1  
+            wait 5000
+            goto @PROPM
+        end
+    end 
+end 
+
+goto @PROPM_LOOP
+end_thread
+
+:MISTRG
+thread 'MISTRG'
+wait 0
+create_thread @P1_MIS
+create_thread @P2_MIS
+create_thread @S1_MIS
+create_thread @S2_MIS
+end_thread
+
+:P1_MIS
+thread 'P1_MIS'
+024A: $PHONE_PORTLAND1 = create_phone_at 940.2308 -230.1653
+
+:P1_IF_ALL_MISSIONS_COMPLETE
+if or
+$PORTLAND_P1_COMPLETED == 5
+$PORTLAND_P1_COMPLETED == 4
+$PORTLAND_P1_COMPLETED == 3
+$PORTLAND_P1_COMPLETED == 2
+then
+0164: disable_marker $PORTLAND_MISSION_MARKER1
+end_thread
+end
+
+:P1_MIS_PHONES
+wait 0
+if
+$ONMISSION == 1
+then
+024E: disable_phone $PHONE_PORTLAND1
+else
+0405: enable_phone $PHONE_PORTLAND1
+end
+
+:P1_MISSION_CHECKER
+if and
+$ONMISSION == 0
+0256:   player $PLAYER_CHAR defined
+0121:   player $PLAYER_CHAR in_zone 'TOWERS'
+00F6:   player $PLAYER_CHAR 0 938.4176 -230.3259 4.943 radius 1.0 1.0 2.0  
+then
+0164: disable_marker $PORTLAND_MISSION_MARKER1
+0164: disable_marker $PORTLAND_MISSION_MARKER1
+024E: disable_phone $PHONE_PORTLAND1
+if
+$PORTLAND_P1_COMPLETED == 0
+then
+0169: set_fade_color 0 0 0
+start_mission 0
+end
+
+if
+$PORTLAND_P1_COMPLETED == 1
+then
+0169: set_fade_color 0 0 0
+start_mission 1
+end
+
+$ONMISSION = 1
+end_thread
+end
+
+jump @P1_MIS_PHONES
+
+:P2_MIS
+thread 'P2_MIS'
+
+:P2_IF
+if or
+$PORTLAND_P1_COMPLETED == 2
+$PORTLAND_P1_COMPLETED == 3
+$PORTLAND_P1_COMPLETED == 4
+then
+if
+$FLAG_P2_BADGER == 0
+then
+$FLAG_P2_BADGER = 1
+014D: text_pager 'MIS2_4' 140 2 0
+end
+jump @P2_LOOP
+else
+end_thread
+end
+
+:P2_LOOP
+wait 0
+if and
+$ONMISSION == 0
+IS_PLAYER_DEFINED $PLAYER_CHAR
+then
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
+    $PORTLAND_P1_COMPLETED == 2
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS2' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission ODD1
+    $ONMISSION = 1
+    0164: disable_marker $PORTLAND_MISSION_MARKER2
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+    
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
+    $PORTLAND_P1_COMPLETED == 3
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS3' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission ODD2
+    $ONMISSION = 1
+    0164: disable_marker $PORTLAND_MISSION_MARKER2
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+    
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
+    $PORTLAND_P1_COMPLETED == 4
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS4' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission ODD3
+    $ONMISSION = 1
+    0164: disable_marker $PORTLAND_MISSION_MARKER2
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+end
+goto @P2_LOOP
+
+end_thread
+
+:S1_MIS
+thread 'S1_MIS'
+
+:S1_LOOP
+wait 0
+
+if
+$PORTLAND_P1_COMPLETED == 5
+then
+gosub @S1_PAGER
+jump @S1_CHECKER
+else
+goto @S1_END
+end
+
+goto @S1_LOOP
+
+:S1_PAGER
+if
+$FLAG_8BALL_PAGER == 0
+then
+$FLAG_8BALL_PAGER = 1
+014D: text_pager 'MIS5_PA' 140 2 0
+return
+else
+return
+end
+
+:S1_CHECKER
+wait 0
+
+if and
+$ONMISSION == 0
+IS_PLAYER_DEFINED $PLAYER_CHAR
+then
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
+    $STAUNTON_P2_COMPLETED == 0
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS5' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission EIGHT1
+    $ONMISSION = 1
+    0164: disable_marker $STAUNTON_MISSION_MARKER1
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+    
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
+    $STAUNTON_P2_COMPLETED == 1
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS6' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission EIGHT2
+    $ONMISSION = 1
+    0164: disable_marker $STAUNTON_MISSION_MARKER1
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+    
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
+    $STAUNTON_P2_COMPLETED == 2
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS8' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission EIGHT3
+    $ONMISSION = 1
+    0164: disable_marker $STAUNTON_MISSION_MARKER1
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+    
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
+    $STAUNTON_P2_COMPLETED == 3
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS9' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission EIGHT4
+    $ONMISSION = 1
+    0164: disable_marker $STAUNTON_MISSION_MARKER1
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+end
+
+goto @S1_CHECKER
+
+:S1_END
+end_thread
+
+:S2_MIS
+thread 'S2_MIS'
+
+:S2_LOOP
+wait 0
+//01E5: show_text_1number_highpriority GXT 'NUMBER' number $STAUNTON_P2_COMPLETED time 5000 flag 1  // ~s~You need $~1~ to compete.
+
+if
+$STAUNTON_BONUS_MISSION0 == 1
+then
+jump @S2_CHECKER
+else
+goto @S2_END
+end
+
+goto @S2_LOOP
+
+:S2_CHECKER
+wait 0
+
+//01E5: show_text_1number_highpriority GXT 'M_PASS' number $FLAG_8BALL_PAGER time 5000 flag 1  // ~s~You need $~1~ to compete.
+
+if and
+$ONMISSION == 0
+IS_PLAYER_DEFINED $PLAYER_CHAR
+then
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 196.9798 -628.9261 26.1674 radius 1.0 1.0 1.0
+    $STAUNTON_BONUS_MISSION0 == 1
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS7' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    03BA: clear_cars_from_cube 239.5074 -613.5795 26.1682 144.3333 -627.5867 59.4458
+    start_mission ODD4
+    $ONMISSION = 1
+    0164: disable_marker $STAUNTON_MISSION_MARKER2
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+end
+
+goto @S2_CHECKER
+
+:S2_END
+end_thread
+
+:PCOPS
+thread 'PCOPS'
+
+:PCOPS_LOOP
+wait 0
+
+if
+$PORTLAND_PLAYER_HAUNT == 0
+then
+goto @PCOPS_END
+else
+jump @PCOPS_HAUNT
+end
+
+goto @PCOPS_LOOP
+
+:PCOPS_HAUNT
+wait 0
+
+if
+03C6:   current_island == 1
+then
+010D: set_player $PLAYER_CHAR wanted_level_to 5
+end
+
+if
+03C6:   current_island == 2
+then
+goto @PCOPS_LOOP
+end
+
+goto @PCOPS_HAUNT
+
+:PCOPS_END
+end_thread
+
+:I_SAVE
+thread 'I_SAVE' 
+
+:I_SAVE_10
+wait 250 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @I_SAVE_695 
+if 
+03C6:   current_island == 1 
+jf @I_SAVE_665 
+if 
+  $FLAG_PORTLAND_SAVE_ON_RADAR == 0 // integer values 
+jf @I_SAVE_99 
+0164: disable_marker $PORTLAND_SAVE_MARKER 
+02A7: $PORTLAND_SAVE_MARKER = create_icon_marker_and_sphere 17 at 870.0 -308.1875 -100.0 
+018B: show_on_radar $PORTLAND_SAVE_MARKER 2 
+$FLAG_PORTLAND_SAVE_ON_RADAR = 1 // integer values 
+
+:I_SAVE_99
+if 
+0121:   player $PLAYER_CHAR in_zone 'REDLIGH'  // Red Light District
+jf @I_SAVE_658 
+if 
+  $245 == 1 // integer values 
+jf @I_SAVE_236 
+if 
+  $ONMISSION == 0 // integer values 
+jf @I_SAVE_201 
+
+:I_SAVE_159
+if 
+834D:   not unknown_rotate_object $PLAYER_DOOR unknown_angle 210.0 10.0 0 
+jf @I_SAVE_194 
+wait 0 
+jump @I_SAVE_159 
+
+:I_SAVE_194
+jump @I_SAVE_236 
+
+:I_SAVE_201
+if 
+834D:   not unknown_rotate_object $PLAYER_DOOR unknown_angle 0.0 10.0 0 
+jf @I_SAVE_236 
+wait 0 
+jump @I_SAVE_201 
+
+:I_SAVE_236
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @I_SAVE_658 
+if 
+03EE:   player $PLAYER_CHAR controllable 
+jf @I_SAVE_658 
+if 
+  $ONMISSION == 0 // integer values 
+jf @I_SAVE_658 
+if 
+019C:   player $PLAYER_CHAR 0 891.1875 -309.6875 7.6875 899.25 -303.25 12.6875 
+jf @I_SAVE_658 
+01B4: set_player $PLAYER_CHAR frozen_state 0 
+015F: set_camera_position 884.5 -305.3125 13.5 0.0 0.0 0.0 
+0160: point_camera 885.25 -305.8125 13.0 2 
+03CF: load_wav 'DOOR_1' 
+
+:I_SAVE_372
+if 
+83D0:   not wav_loaded 
+jf @I_SAVE_396 
+wait 0 
+jump @I_SAVE_372 
+
+:I_SAVE_396
+03D1: play_wav 
+
+:I_SAVE_398
+if 
+834D:   not unknown_rotate_object $PLAYER_DOOR unknown_angle 0.0 8.0 0 
+jf @I_SAVE_433 
+wait 0 
+jump @I_SAVE_398 
+
+:I_SAVE_433
+if 
+83D2:   not wav_ended 
+jf @I_SAVE_457 
+wait 0 
+jump @I_SAVE_433 
+
+:I_SAVE_457
+03D8: show_save_screen 
+wait 0 
+
+:I_SAVE_463
+if 
+83D9:   not save_done 
+jf @I_SAVE_487 
+wait 0 
+jump @I_SAVE_463 
+
+:I_SAVE_487
+0169: set_fade_color 0 0 0 
+fade 0 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @I_SAVE_525 
+01B4: set_player $PLAYER_CHAR frozen_state 0 
+
+:I_SAVE_525
+wait 1000 
+
+:I_SAVE_530
+if 
+834D:   not unknown_rotate_object $PLAYER_DOOR unknown_angle 210.0 10.0 0 
+jf @I_SAVE_565 
+wait 0 
+jump @I_SAVE_530 
+
+:I_SAVE_565
+0395: clear_area 1 at 888.5625 -308.375 range -100.0 1.0 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @I_SAVE_630 
+0055: put_player $PLAYER_CHAR at 888.5625 -308.375 -100.0 
+0171: set_player $PLAYER_CHAR z_angle_to 90.0 
+fade 1 1000 
+02EB: restore_camera_with_jumpcut 
+03C8: rotate_player-180-degrees 
+
+:I_SAVE_630
+wait 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @I_SAVE_658 
+01B4: set_player $PLAYER_CHAR frozen_state 1 
+
+:I_SAVE_658
+jump @I_SAVE_695 
+
+:I_SAVE_665
+if 
+  $FLAG_PORTLAND_SAVE_ON_RADAR == 1 // integer values 
+jf @I_SAVE_695 
+0164: disable_marker $PORTLAND_SAVE_MARKER 
+$FLAG_PORTLAND_SAVE_ON_RADAR = 0 // integer values 
+
+:I_SAVE_695
+jump @I_SAVE_10
+
+:I_RSTRT
+thread 'I_RSTRT' 
+
+:I_RSTRT_10
+wait 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @I_RSTRT_76 
+if 
+03C6:   current_island == 1 
+jf @I_RSTRT_76 
+016C: restart_if_wasted at 1144.25 -596.875 13.875 90.0 
+016D: restart_if_busted at 1143.875 -675.1875 -100.0 90.0 
+end_thread 
+
+:I_RSTRT_76
+jump @I_RSTRT_10
+
+:C_SAVE
+thread 'C_SAVE' 
+
+:C_SAVE_10
+wait 250 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @C_SAVE_825 
+if 
+03C6:   current_island == 2 
+jf @C_SAVE_795 
+if 
+  $FLAG_STAUNTON_SAVE_ON_RADAR == 0 // integer values 
+jf @C_SAVE_99 
+0164: disable_marker $STAUNTON_SAVE_MARKER 
+02A7: $STAUNTON_SAVE_MARKER = create_icon_marker_and_sphere 17 at 103.25 -469.1875 -100.0 
+018B: show_on_radar $STAUNTON_SAVE_MARKER 2 
+$FLAG_STAUNTON_SAVE_ON_RADAR = 1 // integer values 
+
+:C_SAVE_99
+if 
+0121:   player $PLAYER_CHAR in_zone 'PARK'  // Belleville Park
+jf @C_SAVE_788 
+if 
+  $ONMISSION == 0 // integer values 
+jf @C_SAVE_220 
+
+:C_SAVE_141
+if or
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR1 to 105.3125 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR2 to 100.6875 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+jf @C_SAVE_213 
+wait 0 
+jump @C_SAVE_141 
+
+:C_SAVE_213
+jump @C_SAVE_292 
+
+:C_SAVE_220
+if or
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR1 to 103.8125 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR2 to 102.1875 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+jf @C_SAVE_292 
+wait 0 
+jump @C_SAVE_220 
+
+:C_SAVE_292
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @C_SAVE_788 
+if 
+03EE:   player $PLAYER_CHAR controllable 
+jf @C_SAVE_788 
+if 
+  $ONMISSION == 0 // integer values 
+jf @C_SAVE_788 
+if 
+019C:   player $PLAYER_CHAR 0 105.6875 -486.0 15.0 100.75 -483.375 18.0 
+jf @C_SAVE_788 
+01B4: set_player $PLAYER_CHAR frozen_state 0 
+015F: set_camera_position 98.5 -472.0 19.8125 0.0 0.0 0.0 
+0160: point_camera 98.9375 -472.875 19.4375 2 
+03CF: load_wav 'DOOR_3' 
+
+:C_SAVE_428
+if 
+83D0:   not wav_loaded 
+jf @C_SAVE_452 
+wait 0 
+jump @C_SAVE_428 
+
+:C_SAVE_452
+03D1: play_wav 
+
+:C_SAVE_454
+if or
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR1 to 103.8125 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR2 to 102.1875 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+jf @C_SAVE_526 
+wait 0 
+jump @C_SAVE_454 
+
+:C_SAVE_526
+if 
+83D2:   not wav_ended 
+jf @C_SAVE_550 
+wait 0 
+jump @C_SAVE_526 
+
+:C_SAVE_550
+03D8: show_save_screen 
+wait 0 
+
+:C_SAVE_556
+if 
+83D9:   not save_done 
+jf @C_SAVE_580 
+wait 0 
+jump @C_SAVE_556 
+
+:C_SAVE_580
+0169: set_fade_color 0 0 0 
+fade 0 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @C_SAVE_618 
+01B4: set_player $PLAYER_CHAR frozen_state 0 
+
+:C_SAVE_618
+wait 1000 
+
+:C_SAVE_623
+if or
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR1 to 105.3125 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+834E:   not unknown_move_object $STAUNTON_HIDEOUT_DOOR2 to 100.6875 -482.75 16.25 unknown_angle 0.0625 0.0 0.0 0 
+jf @C_SAVE_695 
+wait 0 
+jump @C_SAVE_623 
+
+:C_SAVE_695
+0395: clear_area 1 at 103.0 -478.5 range 14.875 1.0 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @C_SAVE_760 
+0055: put_player $PLAYER_CHAR at 103.0 -478.5 14.875 
+0171: set_player $PLAYER_CHAR z_angle_to 0.0 
+fade 1 1000 
+02EB: restore_camera_with_jumpcut 
+03C8: rotate_player-180-degrees 
+
+:C_SAVE_760
+wait 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @C_SAVE_788 
+01B4: set_player $PLAYER_CHAR frozen_state 1 
+
+:C_SAVE_788
+jump @C_SAVE_825 
+
+:C_SAVE_795
+if 
+  $FLAG_STAUNTON_SAVE_ON_RADAR == 1 // integer values 
+jf @C_SAVE_825 
+0164: disable_marker $STAUNTON_SAVE_MARKER 
+$FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values 
+
+:C_SAVE_825
+jump @C_SAVE_10 
+
+:C_RSTRT
+thread 'C_RSTRT' 
+
+:C_RSTRT_10
+wait 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @C_RSTRT_98 
+if 
+03C6:   current_island == 2 
+jf @C_RSTRT_98 
+if 
+  $FLAG_STAUNTON_OPEN == 1 // integer values 
+jf @C_RSTRT_98 
+016C: restart_if_wasted at 183.5 -17.75 16.1875 180.0 
+016D: restart_if_busted at 340.25 -1123.375 25.0 180.0 
+01F0: set_max_wanted_level_to 5 
+end_thread 
+
+:C_RSTRT_98
+jump @C_RSTRT_10
+
+:S_SAVE
+thread 'S_SAVE' 
+
+:S_SAVE_10
+wait 250 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @S_SAVE_617 
+if 
+03C6:   current_island == 3 
+jf @S_SAVE_587 
+if 
+  $FLAG_SHORESIDE_SAVE_ON_RADAR == 0 // integer values 
+jf @S_SAVE_99 
+0164: disable_marker $SHORESIDE_SAVE_MARKER 
+02A7: $SHORESIDE_SAVE_MARKER = create_icon_marker_and_sphere 17 at -665.0 -6.5 -100.0 
+018B: show_on_radar $SHORESIDE_SAVE_MARKER 2 
+$FLAG_SHORESIDE_SAVE_ON_RADAR = 1 // integer values 
+
+:S_SAVE_99
+if 
+0121:   player $PLAYER_CHAR in_zone 'PROJECT'  // Wichita Gardens
+jf @S_SAVE_580 
+if 
+  $ONMISSION == 0 // integer values 
+jf @S_SAVE_183 
+
+:S_SAVE_141
+if 
+834D:   not unknown_rotate_object $56 unknown_angle 250.0 10.0 0 
+jf @S_SAVE_176 
+wait 0 
+jump @S_SAVE_141 
+
+:S_SAVE_176
+jump @S_SAVE_218 
+
+:S_SAVE_183
+if 
+834D:   not unknown_rotate_object $56 unknown_angle 180.0 10.0 0 
+jf @S_SAVE_218 
+wait 0 
+jump @S_SAVE_183 
+
+:S_SAVE_218
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @S_SAVE_580 
+if 
+03EE:   player $PLAYER_CHAR controllable 
+jf @S_SAVE_580 
+if 
+  $ONMISSION == 0 // integer values 
+jf @S_SAVE_580 
+if 
+019C:   player $PLAYER_CHAR 0 -670.5 3.875 18.0 -660.0 12.6875 22.0 
+jf @S_SAVE_580 
+01B4: set_player $PLAYER_CHAR frozen_state 0 
+015F: set_camera_position -678.125 -6.4375 24.4375 0.0 0.0 0.0 
+0160: point_camera -677.375 -5.875 24.0625 2 
+
+:S_SAVE_344
+if 
+834D:   not unknown_rotate_object $56 unknown_angle 180.0 8.0 0 
+jf @S_SAVE_379 
+wait 0 
+jump @S_SAVE_344 
+
+:S_SAVE_379
+03D8: show_save_screen 
+wait 0 
+
+:S_SAVE_385
+if 
+83D9:   not save_done 
+jf @S_SAVE_409 
+wait 0 
+jump @S_SAVE_385 
+
+:S_SAVE_409
+0169: set_fade_color 0 0 0 
+fade 0 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @S_SAVE_447 
+01B4: set_player $PLAYER_CHAR frozen_state 0 
+
+:S_SAVE_447
+wait 1000 
+
+:S_SAVE_452
+if 
+834D:   not unknown_rotate_object $56 unknown_angle 250.0 10.0 0 
+jf @S_SAVE_487 
+wait 0 
+jump @S_SAVE_452 
+
+:S_SAVE_487
+0395: clear_area 1 at -666.75 -1.75 range -100.0 1.0 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @S_SAVE_552 
+0055: put_player $PLAYER_CHAR at -666.75 -1.75 -100.0 
+0171: set_player $PLAYER_CHAR z_angle_to 180.0 
+fade 1 1000 
+02EB: restore_camera_with_jumpcut 
+03C8: rotate_player-180-degrees 
+
+:S_SAVE_552
+wait 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @S_SAVE_580 
+01B4: set_player $PLAYER_CHAR frozen_state 1 
+
+:S_SAVE_580
+jump @S_SAVE_617 
+
+:S_SAVE_587
+if 
+  $FLAG_SHORESIDE_SAVE_ON_RADAR == 1 // integer values 
+jf @S_SAVE_617 
+0164: disable_marker $SHORESIDE_SAVE_MARKER 
+$FLAG_SHORESIDE_SAVE_ON_RADAR = 0 // integer values 
+
+:S_SAVE_617
+jump @S_SAVE_10 
+
+:S_RSTRT
+thread 'S_RSTRT' 
+
+:S_RSTRT_10
+wait 1000 
+if 
+0256:   player $PLAYER_CHAR defined 
+jf @S_RSTRT_98 
+if 
+03C6:   current_island == 3 
+jf @S_RSTRT_98 
+if 
+  $FLAG_SHORESIDE_OPEN == 1 // integer values 
+jf @S_RSTRT_98 
+016C: restart_if_wasted at -1253.0 -138.1875 57.75 90.0 
+016D: restart_if_busted at -1259.5 -44.5 57.75 90.0 
+01F0: set_max_wanted_level_to 6 
+end_thread 
+
+:S_RSTRT_98
+jump @S_RSTRT_10
+
+{$INCLUDE CALL1.sc}
+{$INCLUDE CALL2.sc}
+{$INCLUDE ODD1.sc}       
+{$INCLUDE ODD2.sc}
+{$INCLUDE ODD3.sc}
+{$INCLUDE EIGHT1.sc}
+{$INCLUDE EIGHT2.sc}
+{$INCLUDE ODD4.sc}
+{$INCLUDE EIGHT3.sc}
+{$INCLUDE EIGHT4.sc}
+//{$INCLUDE DARKEL1.sc}
