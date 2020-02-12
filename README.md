@@ -26,7 +26,7 @@ The mod is currently in development, save files will be incompatible which each 
 
 1. You can buy property by collecting the briefcase pickup
 
-2. All islands are accesible from the start
+2. All islands are accessible from the start
 
 # Requirements
 
