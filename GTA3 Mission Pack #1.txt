@@ -21,7 +21,7 @@ DEFINE MISSION 9 AT @EIGHT4
 03A4: name_thread 'MAIN'
 016A: fade 0 0 ms
 01F0: set_max_wanted_level_to 6 
-set_wb_check_to 0
+SET_WB_CHECK_TO 0
 03CB: set_camera 887.0399 -307.5607 8.5774
 0169: set_fade_color 0 0 0 
 00C0: set_current_time 12 0 
@@ -77,9 +77,9 @@ SET_PED_DENSITY 1.0
 wait 4000
 02A7: $PORTLAND_MISSION_MARKER1 = create_icon_marker_and_sphere 8 at 938.4176 -230.3259 4.943
 //02A7: $PORTLAND_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 1150.1073 -454.2015 20.648        // COMMENT IF RELEASE
-02A7: $STAUNTON_MISSION_MARKER1 = create_icon_marker_and_sphere 7 at 374.3439 -568.5399 25.1748         // COMMENT IF RELEASE
-02A7: $STAUNTON_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 196.8638 -628.8686 25.1673        // COMMENT IF RELEASE
-02A7: $STAUNTON_MISSION_MARKER3 = create_icon_marker_and_sphere 9 at 79.9823 -958.9354 25.1681
+//02A7: $STAUNTON_MISSION_MARKER1 = create_icon_marker_and_sphere 7 at 374.3439 -568.5399 25.1748         // COMMENT IF RELEASE
+//02A7: $STAUNTON_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 196.8638 -628.8686 25.1673        // COMMENT IF RELEASE
+//02A7: $STAUNTON_MISSION_MARKER3 = create_icon_marker_and_sphere 9 at 79.9823 -958.9354 25.1681
 
 /* PROPERTY ICONS */
 02A7: $PROPERTY_ICON0 = create_icon_marker_and_sphere 19 at 158.3013 -1011.3917 26.0
@@ -99,15 +99,15 @@ $FLAG_8BALL_PAGER = 0
 0177: set_object $PLAYER_DOOR z_angle_to 244.0
 0223: set_actor $PLAYER_ACTOR health_to 100
 0222: set_player $PLAYER_CHAR health_to 100
-$PORTLAND_P1_COMPLETED = 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
-$STAUNTON_P2_COMPLETED = 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
+$PORTLAND_P1_COMPLETED = 0 // 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
+$STAUNTON_P2_COMPLETED = 0 // 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
 $FLAG_PORTLAND_SAVE_ON_RADAR = 0 // integer values 
 $FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values 
 $FLAG_SHORESIDE_SAVE_ON_RADAR = 0
 $FLAG_STAUNTON_OPEN = 1 
 $FLAG_SHORESIDE_OPEN = 1     
-$PORTLAND_PLAYER_HAUNT = 1  // was 1    // MUST BE FALSE ( ZERO ) ON RELEASE !!
-$PROPERTIES_AVAILABLE = 1  // was 1     // MUST BE FALSE ( ZERO ) ON RELEASE !!
+$PORTLAND_PLAYER_HAUNT = 0  // 1  // was 1    // MUST BE FALSE ( ZERO ) ON RELEASE !!
+$PROPERTIES_AVAILABLE = 0 // 1  // was 1     // MUST BE FALSE ( ZERO ) ON RELEASE !!
 
 $STAUNTON_BONUS_MISSION0 = 0 // was 1 // MUST BE ZERO ON RELEASE
 
@@ -125,10 +125,10 @@ until 0248:   model #INFERNUS available
 01C3: remove_references_to_car $ALLEGRI_BONUS
 RELEASE_MODEL #INFERNUS 
 
-   0055: put_player $PLAYER_CHAR at 354.3439 -568.5399 25.1748 // COMMENT IF DONE WITH STAUNTON !!!!! 
+//0055: put_player $PLAYER_CHAR at 354.3439 -568.5399 25.1748 // COMMENT IF DONE WITH STAUNTON !!!!! 
 //0055: put_player $PLAYER_CHAR at -661.3479 687.7099 105.6733
- 010D: set_player $PLAYER_CHAR wanted_level_to 0 // COMMENT IF DONE WITH STAUNTON !!!!!
-0110: clear_player $PLAYER_CHAR wanted_level   // COMMENT IF DONE WITH STAUNTON !!!!!
+// 010D: set_player $PLAYER_CHAR wanted_level_to 0 // COMMENT IF DONE WITH STAUNTON !!!!!
+//0110: clear_player $PLAYER_CHAR wanted_level   // COMMENT IF DONE WITH STAUNTON !!!!!
 
 //0213: $TESTPSAVE = create_pickup #PSAVE type 1 at 119.7002 -477.0096 15.9403  // BUGS OUT ! SILENT HELP!
  

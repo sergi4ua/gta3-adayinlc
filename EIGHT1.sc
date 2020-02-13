@@ -16,15 +16,18 @@ $ONMISSION = 1
 0110: clear_player $PLAYER_CHAR wanted_level
 
 :EIGHT1_MODEL_LOAD
-023C: load_special_actor 'EIGHT2'  as 1
+023C: load_special_actor 'EIGHT2' 1
 
 :EIGHT1_MODEL_AVAILABLE
 wait 0
 if
-023D: 1
-jf @EIGHT1_MODEL_AVAILABLE
+823D:   not special_actor 1 loaded 
+jf @EIGHT1_CONTINUE
+jump @EIGHT1_MODEL_AVAILABLE
+
+:EIGHT1_CONTINUE
 01B4: set_player $PLAYER_CHAR control 0
-035F: set_actor $PLAYER_ACTOR armour_to 0
+//035F: set_actor $PLAYER_ACTOR armour_to 0
 009A: $MIS_ACTOR = create_actor_pedtype 21 model #SPECIAL01 at 361.0373 -568.2589 25.0
 0173: set_actor $MIS_ACTOR z_angle_to 270.0
 015F: set_camera_position 366.4979 -568.2222 26.1748 rotation 0.0 0.0 0.0

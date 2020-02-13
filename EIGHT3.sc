@@ -323,6 +323,9 @@ wait 0
 0394: play_music 1 
 0318: set_latest_mission_passed 'MIS8'
 030C: set_mission_points += 1
+02A7: $STAUNTON_MISSION_MARKER1 = create_icon_marker_and_sphere 7 at 374.3439 -568.5399 25.1748  
+$STAUNTON_P2_COMPLETED += 1
+create_thread @S1_MIS
 gosub @EIGHT3_SKIP
 return
 
