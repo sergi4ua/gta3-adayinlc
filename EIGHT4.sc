@@ -152,18 +152,19 @@ then
     goto @EIGHT4_FAIL
 end
 
-if or
-0123:   actor $MIS_ACTOR1 spotted_player $PLAYER_CHAR
-0123:   actor $MIS_ACTOR2 spotted_player $PLAYER_CHAR
-0123:   actor $MIS_ACTOR3 spotted_player $PLAYER_CHAR
+if
+10@ == 0
 then
-    if
-        $MIS_FLAG0 == 0
+    if or
+    0123:   actor $MIS_ACTOR1 spotted_player $PLAYER_CHAR
+    0123:   actor $MIS_ACTOR2 spotted_player $PLAYER_CHAR
+    0123:   actor $MIS_ACTOR3 spotted_player $PLAYER_CHAR
     then
         010D: set_player $PLAYER_CHAR wanted_level_to 5
         01CA: actor $MIS_ACTOR1 kill_player $PLAYER_CHAR
-         01CA: actor $MIS_ACTOR2 kill_player $PLAYER_CHAR
-          01CA: actor $MIS_ACTOR3 kill_player $PLAYER_CHAR
+        01CA: actor $MIS_ACTOR2 kill_player $PLAYER_CHAR
+        01CA: actor $MIS_ACTOR3 kill_player $PLAYER_CHAR
+        10@ = 1
     end
 end
 
