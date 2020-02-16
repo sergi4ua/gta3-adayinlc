@@ -4,7 +4,7 @@ DEFINE OBJECT (noname)
 DEFINE OBJECT INDHELIX_BARRIER         // Object number -1
 DEFINE OBJECT LOD_LAND014              // Object number -2
 
-DEFINE MISSIONS 10
+DEFINE MISSIONS 11
 DEFINE MISSION 0 AT @CALL1
 DEFINE MISSION 1 AT @CALL2
 DEFINE MISSION 2 AT @ODD1
@@ -15,6 +15,7 @@ DEFINE MISSION 6 AT @EIGHT2
 DEFINE MISSION 7 AT @ODD4
 DEFINE MISSION 8 AT @EIGHT3
 DEFINE MISSION 9 AT @EIGHT4
+DEFINE MISSION 10 AT @ODD5
 //DEFINE MISSION 3 AT @CAT1_5482
 
 //-------------MAIN---------------
@@ -77,9 +78,9 @@ SET_PED_DENSITY 1.0
 wait 4000
 02A7: $PORTLAND_MISSION_MARKER1 = create_icon_marker_and_sphere 8 at 938.4176 -230.3259 4.943
 //02A7: $PORTLAND_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 1150.1073 -454.2015 20.648        // COMMENT IF RELEASE
-//02A7: $STAUNTON_MISSION_MARKER1 = create_icon_marker_and_sphere 7 at 374.3439 -568.5399 25.1748         // COMMENT IF RELEASE
+02A7: $STAUNTON_MISSION_MARKER1 = create_icon_marker_and_sphere 7 at 374.3439 -568.5399 25.1748         // COMMENT IF RELEASE
 //02A7: $STAUNTON_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 196.8638 -628.8686 25.1673        // COMMENT IF RELEASE
-//02A7: $STAUNTON_MISSION_MARKER3 = create_icon_marker_and_sphere 9 at 79.9823 -958.9354 25.1681
+02A7: $STAUNTON_MISSION_MARKER3 = create_icon_marker_and_sphere 9 at 79.9823 -958.9354 25.1681
 
 /* PROPERTY ICONS */
 02A7: $PROPERTY_ICON0 = create_icon_marker_and_sphere 19 at 158.3013 -1011.3917 26.0
@@ -99,17 +100,17 @@ $FLAG_8BALL_PAGER = 0
 0177: set_object $PLAYER_DOOR z_angle_to 244.0
 0223: set_actor $PLAYER_ACTOR health_to 100
 0222: set_player $PLAYER_CHAR health_to 100
-$PORTLAND_P1_COMPLETED = 0 // 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
-$STAUNTON_P2_COMPLETED = 0 // 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
+$PORTLAND_P1_COMPLETED = 5 // 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
+$STAUNTON_P2_COMPLETED = 3 // 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
 $FLAG_PORTLAND_SAVE_ON_RADAR = 0 // integer values 
 $FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values 
 $FLAG_SHORESIDE_SAVE_ON_RADAR = 0
 $FLAG_STAUNTON_OPEN = 1 
 $FLAG_SHORESIDE_OPEN = 1     
 $PORTLAND_PLAYER_HAUNT = 0  // 1  // was 1    // MUST BE FALSE ( ZERO ) ON RELEASE !!
-$PROPERTIES_AVAILABLE = 0 // 1  // was 1     // MUST BE FALSE ( ZERO ) ON RELEASE !!
+$PROPERTIES_AVAILABLE = 1 // 1  // was 1     // MUST BE FALSE ( ZERO ) ON RELEASE !!
 
-$STAUNTON_BONUS_MISSION0 = 0 // was 1 // MUST BE ZERO ON RELEASE
+$STAUNTON_BONUS_MISSION0 = 2 // was 2 // MUST BE ZERO ON RELEASE
 
 0318: set_latest_mission_passed 'NOMIS'
 0109: player $PLAYER_CHAR money += 25000
@@ -125,10 +126,10 @@ until 0248:   model #INFERNUS available
 01C3: remove_references_to_car $ALLEGRI_BONUS
 RELEASE_MODEL #INFERNUS 
 
-//0055: put_player $PLAYER_CHAR at 354.3439 -568.5399 25.1748 // COMMENT IF DONE WITH STAUNTON !!!!! 
+0055: put_player $PLAYER_CHAR at 354.3439 -568.5399 25.1748 // COMMENT IF DONE WITH STAUNTON !!!!! 
 //0055: put_player $PLAYER_CHAR at -661.3479 687.7099 105.6733
-// 010D: set_player $PLAYER_CHAR wanted_level_to 0 // COMMENT IF DONE WITH STAUNTON !!!!!
-//0110: clear_player $PLAYER_CHAR wanted_level   // COMMENT IF DONE WITH STAUNTON !!!!!
+ 010D: set_player $PLAYER_CHAR wanted_level_to 0 // COMMENT IF DONE WITH STAUNTON !!!!!
+0110: clear_player $PLAYER_CHAR wanted_level   // COMMENT IF DONE WITH STAUNTON !!!!!
 
 //0213: $TESTPSAVE = create_pickup #PSAVE type 1 at 119.7002 -477.0096 15.9403  // BUGS OUT ! SILENT HELP!
  
@@ -167,6 +168,7 @@ then
 end
 
 018B: show_on_radar $PROPERTY_ICON0 2
+018B: show_on_radar $PROPERTY_ICON1 2
 
 
 :PROP_LOOP
@@ -325,6 +327,7 @@ goto @PROP
 
 :PROP_END
 018B: show_on_radar $PROPERTY_ICON0 0
+018B: show_on_radar $PROPERTY_ICON1 0
 end_thread
 
 :PROPM
@@ -689,11 +692,17 @@ wait 0
 //01E5: show_text_1number_highpriority GXT 'NUMBER' number $STAUNTON_P2_COMPLETED time 5000 flag 1  // ~s~You need $~1~ to compete.
 
 if
-$STAUNTON_BONUS_MISSION0 == 1
+    $STAUNTON_BONUS_MISSION0 == 1
 then
-jump @S2_CHECKER
+    jump @S2_CHECKER
 else
-goto @S2_END
+    if
+        $STAUNTON_BONUS_MISSION0 == 2
+    then
+        jump @S2_CHECKER2
+    else
+        goto @S2_END
+    end
 end
 
 goto @S2_LOOP
@@ -726,6 +735,33 @@ then
 end
 
 goto @S2_CHECKER
+
+:S2_CHECKER2
+wait 0
+
+if and
+$ONMISSION == 0
+IS_PLAYER_DEFINED $PLAYER_CHAR
+then
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 80.0474 -958.9118 26.1681 radius 1.0 1.0 1.0
+    $STAUNTON_BONUS_MISSION0 == 2
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS10' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    03BA: clear_cars_from_cube 239.5074 -613.5795 26.1682 144.3333 -627.5867 59.4458
+    start_mission ODD5
+    $ONMISSION = 1
+    0164: disable_marker $STAUNTON_MISSION_MARKER2
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+end
+
+goto @S2_CHECKER2
 
 :S2_END
 end_thread
@@ -1265,4 +1301,4 @@ jump @S_RSTRT_10
 {$INCLUDE ODD4.sc}
 {$INCLUDE EIGHT3.sc}
 {$INCLUDE EIGHT4.sc}
-//{$INCLUDE DARKEL1.sc}
+{$INCLUDE ODD5.sc}

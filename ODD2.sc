@@ -34,7 +34,7 @@ fade 1 1500
 00BC: show_text_highpriority GXT 'MIS3_B' time 7000 flag 1
 00A5: $MISSION_BOAT1 = create_car #PREDATOR at 841.1928 -1114.5583 3.0
 0175: set_car $MISSION_BOAT1 z_angle_to 180.0
-032B: $MISSION_SNIPER = create_weapon_pickup #SNIPER 14 ammo 100 at 835.654 -1091.1638 6.824
+032B: $MISSION_SNIPER = create_weapon_pickup #SNIPER 14 ammo 10 at 835.654 -1091.1638 6.824
 03DC: $MISSION_MARKER0 = create_marker_above_pickup $MISSION_SNIPER
 
 :ODD2_OBJ1
