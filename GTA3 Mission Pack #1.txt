@@ -31,7 +31,7 @@ SET_WB_CHECK_TO 0
 0363: toggle_model_render_at 1027.25 -933.7499 15.0 radius 50.0 object #INDHELIX_BARRIER 0 
 03B6: replace_model_at 1027.25 -933.7499 15.0 radius 50.0 from #INDHELIX_BARRIER to #LOD_LAND014 
 01B6: set_weather 0 
-034B: staunton_complete 
+034B: staunton_complete // forces the radio
 0180: set_on_mission_flag_to $ONMISSION
 029B: $PLAYER_DOOR = init_object #PLAYERSDOOR at 890.875 -307.6875 8.75 
 01C7: remove_object_from_mission_cleanup_list $PLAYER_DOOR 
@@ -71,8 +71,7 @@ SET_PED_DENSITY 1.0
 0353: refresh_actor $PLAYER_ACTOR 
 01B4: set_player $PLAYER_CHAR frozen_state 1 
 0173: set_actor $PLAYER_ACTOR z_angle_to 92.0
-01B7: release_weather 
-0109: player $PLAYER_CHAR money += $PLAYER_CHAR 
+01B7: release_weather  
 0054: store_player $PLAYER_CHAR position_to $var1 $var2 $var3
 0213: $ALLEGRI_PICKUP1 = create_pickup #BODYARMOUR type 14 at 1166.6113 -550.179 21.5984 
 wait 4000
@@ -92,6 +91,7 @@ wait 4000
 /* PROPERTY VARS */
 $PROPERTY0_BOUGHT = 0
 $PROPERTY1_BOUGHT = 0
+$PROPERTY2_BOUGHT = 0 // newport safehouse
 
 fade 1 1000
 014D: text_pager 'MPINTR' 140 2 0
@@ -103,7 +103,8 @@ $FLAG_8BALL_PAGER = 0
 $PORTLAND_P1_COMPLETED = 5 // 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
 $STAUNTON_P2_COMPLETED = 3 // 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
 $FLAG_PORTLAND_SAVE_ON_RADAR = 0 // integer values 
-$FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values 
+$FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values
+$FLAG_NEWPORT_SAVE_ON_RADAR = 0 // newport safehouse 
 $FLAG_SHORESIDE_SAVE_ON_RADAR = 0
 $FLAG_STAUNTON_OPEN = 1 
 $FLAG_SHORESIDE_OPEN = 1     
@@ -113,7 +114,8 @@ $PROPERTIES_AVAILABLE = 1 // 1  // was 1     // MUST BE FALSE ( ZERO ) ON RELEAS
 $STAUNTON_BONUS_MISSION0 = 2 // was 2 // MUST BE ZERO ON RELEASE
 
 0318: set_latest_mission_passed 'NOMIS'
-0109: player $PLAYER_CHAR money += 25000
+//0109: player $PLAYER_CHAR money += 25000  // UNCOMMENT ON RELEASE
+0109: player $PLAYER_CHAR money += 120000
 REQUEST_MODEL #INFERNUS
 LOAD_REQUESTED_MODELS
 
@@ -135,6 +137,7 @@ RELEASE_MODEL #INFERNUS
  
 create_thread @PROP
 create_thread @PROPM
+create_thread @SHPROP // newport safehouse
 create_thread_wb @MISTRG
 create_thread @PCOPS
 create_thread @I_SAVE
@@ -148,623 +151,9 @@ create_thread @S_RSTRT
 0001: wait 250 ms 
 0002: jump @MAIN_138 
 
-:PROP
-thread 'PROP'
-if
-$PROPERTIES_AVAILABLE == 1
-jf @PROP_END
-// if player have bought any properties, don't spawn the briefcase pickup
-
-if
-$PROPERTY0_BOUGHT == 0
-then
-0213: $PROPERTY_PICKUP0 = create_pickup #BRIEFCASE type 3 at 158.3013 -1011.3917 26.0
-end
-
-if
-$PROPERTY1_BOUGHT == 0
-then
-0213: $PROPERTY_PICKUP1 = create_pickup #BRIEFCASE type 3 at 397.4659 -1195.2642 26.1682
-end
-
-018B: show_on_radar $PROPERTY_ICON0 2
-018B: show_on_radar $PROPERTY_ICON1 2
-
-
-:PROP_LOOP
-wait 0
-
-if and
-$PROPERTY0_BOUGHT == 0
-0214:   pickup $PROPERTY_PICKUP0 picked_up
-then
-goto @PROP_1CONF
-end
-
-if and
-$PROPERTY1_BOUGHT == 0
-0214:   pickup $PROPERTY_PICKUP1 picked_up
-then
-goto @PROP_2CONF
-end
-
-goto @PROP_LOOP
-
-/* FIRST PROPERTY */
-                  
-:PROP_1CONF
-wait 0
-    if
-        $ONMISSION == 1
-    then
-        03E5: show_text_box 'PROPWOR'
-        goto @PROP_CLEANUP
-    else
-        if
-            010A:   player $PLAYER_CHAR money > 19999
-        then 
-            01B4: set_player $PLAYER_CHAR control 0
-            01E5: show_text_1number_highpriority GXT 'PROP1' number 20000 time 5000 flag 1 
-            goto @PROP_1CONF_KEY
-        else
-            03E5: show_text_box 'PROPNO'
-            goto @PROP_CLEANUP
-        end
-    end
-
-:PROP_1CONF_KEY
-wait 0
-16@ = 0
-
-if
-16@ > 4999
-then
-01E5: show_text_1number_highpriority GXT 'PROP1' number 20000 time 5000 flag 1 
-16@ = 0
-end 
-
-if
-00E1:   player 0 pressed_button 19
-then
-0109: player $PLAYER_CHAR money += -20000
-0169: set_fade_color 0 0 0
-fade 0 1500
-wait 1500
-TOGGLE_WIDESCREEN TRUE
-015F: set_camera_position 150.9439 -1015.716 26.0182 rotation 0.0 0.0 0.0
-0160: point_camera 159.5077 -991.7161 31.0909 switchstyle 2
-fade 1 1500
-wait 1500
-TEXT_CLEAR_ALL
-wait 500
-00BA: show_text_styled GXT 'PROPBUY' time 3000 style 5  // Text
-0394: play_music 1
-wait 3000
-01E4: text_1number_lowpriority 'PROP3' 30000 5000 ms 1
-wait 5000
-TOGGLE_WIDESCREEN FALSE
-0373: set_camera_directly_behind_player
-RESTORE_CAMERA
-$PROPERTY0_BOUGHT = 1
-goto @PROP_CLEANUP
-end
-
-goto @PROP_1CONF_KEY
-
-/* SECOND PROPERTY */
-
-:PROP_2CONF
-wait 0
-    if
-        $ONMISSION == 1
-    then
-        03E5: show_text_box 'PROPWOR'
-        goto @PROP_CLEANUP
-    else
-        if
-            010A:   player $PLAYER_CHAR money > 34999
-        then 
-            01B4: set_player $PLAYER_CHAR control 0
-            01E5: show_text_1number_highpriority GXT 'PROP1' number 35000 time 5000 flag 1 
-            goto @PROP_2CONF_KEY
-        else
-            03E5: show_text_box 'PROPNO'
-            goto @PROP_CLEANUP
-        end
-    end
-
-:PROP_2CONF_KEY
-wait 0
-16@ = 0
-
-if
-16@ > 4999
-then
-01E5: show_text_1number_highpriority GXT 'PROP1' number 35000 time 5000 flag 1 
-16@ = 0
-end 
-
-if
-00E1:   player 0 pressed_button 19
-then
-0109: player $PLAYER_CHAR money += -20000
-0169: set_fade_color 0 0 0
-fade 0 1500
-wait 1500
-TOGGLE_WIDESCREEN TRUE
-015F: set_camera_position 420.7668 -1223.8219 31.1652 rotation 0.0 0.0 0.0
-0160: point_camera 397.9051 -1160.1255 57.0936 switchstyle 2
-fade 1 1500
-wait 1500
-TEXT_CLEAR_ALL
-wait 500
-00BA: show_text_styled GXT 'PROPBUY' time 3000 style 5  // Text
-0394: play_music 1
-wait 3000
-01E4: text_1number_lowpriority 'PROP3' 50000 5000 ms 1
-wait 5000
-TOGGLE_WIDESCREEN FALSE
-0373: set_camera_directly_behind_player
-RESTORE_CAMERA
-$PROPERTY1_BOUGHT = 1
-goto @PROP_CLEANUP
-end
-
-if
-00E1:   player 0 pressed_button 15
-then
-goto @PROP_CLEANUP
-end
-
-goto @PROP_2CONF_KEY
-
-:PROP_CLEANUP
-TEXT_CLEAR_ALL
-01B4: set_player $PLAYER_CHAR control 1
-0215: destroy_pickup $PROPERTY_PICKUP0
-wait 3000
-goto @PROP
-
-:PROP_END
-018B: show_on_radar $PROPERTY_ICON0 0
-018B: show_on_radar $PROPERTY_ICON1 0
-end_thread
-
-:PROPM
-thread 'PROPM'
-$PROPERTY0_MONEY = 0
-$PROPERTY1_MONEY = 0
-$FLAG_PROPERTY0_MONEYPICKUP = 0
-$FLAG_PROPERTY1_MONEYPICKUP = 0
-$PROP_TIME = 0
-$PROP2_TIME = 0
-
-:PROPM_LOOP
-wait 0
-
-if and
-$PROPERTIES_AVAILABLE == 1
-$PROPERTY0_BOUGHT == 1
-$FLAG_PROPERTY0_MONEYPICKUP == 0
-then
-$FLAG_PROPERTY0_MONEYPICKUP = 1
-0213: 0@ = create_pickup #MONEY type 3 at 158.4647 -1016.8173 26.1682
-end
-
-if and
-$PROPERTIES_AVAILABLE == 1
-$PROPERTY1_BOUGHT == 1
-$FLAG_PROPERTY1_MONEYPICKUP == 0
-then
-$FLAG_PROPERTY1_MONEYPICKUP = 1
-0213: 1@ = create_pickup #MONEY type 3 at 395.5382 -1198.8009 26.1827
-end
-
-if
-$PROPERTY0_BOUGHT == 1
-then
-//01E5: show_text_1number_highpriority GXT 'NUMBER' number $PROP_TIME time 5000 flag 1
-$PROP_TIME += 5
-end
-
-if
-$PROPERTY1_BOUGHT == 1
-then
-//01E5: show_text_1number_highpriority GXT 'NUMBER' number $PROP_TIME time 5000 flag 1
-$PROP2_TIME += 5
-end
-
-if and
-$PROPERTY0_BOUGHT == 1
-$PROP_TIME > 1000
-then
-    if
-        $PROPERTY0_MONEY < 30000
-    then
-        $PROPERTY0_MONEY += 500
-    end
-    
-    $PROP_TIME = 0
-end
-
-if and
-$PROPERTY1_BOUGHT == 1
-$PROP2_TIME > 1000
-then
-    if
-        $PROPERTY1_MONEY < 50000
-    then
-        $PROPERTY1_MONEY += 1000
-    end
-    
-    $PROP2_TIME = 0
-end
-
-if
-$PROPERTIES_AVAILABLE == 1
-then
-    if
-        0214:   pickup 0@ picked_up
-    then
-        if and
-            $PROPERTY0_BOUGHT == 1
-            $FLAG_PROPERTY0_MONEYPICKUP == 1
-        then
-            0109: player $PLAYER_CHAR money += $PROPERTY0_MONEY
-            $FLAG_PROPERTY0_MONEYPICKUP = 0
-            01E5: show_text_1number_highpriority GXT 'PROP5' number $PROPERTY0_MONEY time 5000 flag 1  
-            wait 5000
-            goto @PROPM
-        end
-    end 
-    
-    if
-        0214:   pickup 1@ picked_up
-    then
-        if and
-            $PROPERTY1_BOUGHT == 1
-            $FLAG_PROPERTY1_MONEYPICKUP == 1
-        then
-            0109: player $PLAYER_CHAR money += $PROPERTY1_MONEY
-            $FLAG_PROPERTY1_MONEYPICKUP = 0
-            01E5: show_text_1number_highpriority GXT 'PROP5' number $PROPERTY1_MONEY time 5000 flag 1  
-            wait 5000
-            goto @PROPM
-        end
-    end 
-end 
-
-goto @PROPM_LOOP
-end_thread
-
-:MISTRG
-thread 'MISTRG'
-wait 0
-create_thread @P1_MIS
-create_thread @P2_MIS
-create_thread @S1_MIS
-create_thread @S2_MIS
-end_thread
-
-:P1_MIS
-thread 'P1_MIS'
-024A: $PHONE_PORTLAND1 = create_phone_at 940.2308 -230.1653
-
-:P1_IF_ALL_MISSIONS_COMPLETE
-if or
-$PORTLAND_P1_COMPLETED == 5
-$PORTLAND_P1_COMPLETED == 4
-$PORTLAND_P1_COMPLETED == 3
-$PORTLAND_P1_COMPLETED == 2
-then
-0164: disable_marker $PORTLAND_MISSION_MARKER1
-end_thread
-end
-
-:P1_MIS_PHONES
-wait 0
-if
-$ONMISSION == 1
-then
-024E: disable_phone $PHONE_PORTLAND1
-else
-0405: enable_phone $PHONE_PORTLAND1
-end
-
-:P1_MISSION_CHECKER
-if and
-$ONMISSION == 0
-0256:   player $PLAYER_CHAR defined
-0121:   player $PLAYER_CHAR in_zone 'TOWERS'
-00F6:   player $PLAYER_CHAR 0 938.4176 -230.3259 4.943 radius 1.0 1.0 2.0  
-then
-0164: disable_marker $PORTLAND_MISSION_MARKER1
-0164: disable_marker $PORTLAND_MISSION_MARKER1
-024E: disable_phone $PHONE_PORTLAND1
-if
-$PORTLAND_P1_COMPLETED == 0
-then
-0169: set_fade_color 0 0 0
-start_mission 0
-end
-
-if
-$PORTLAND_P1_COMPLETED == 1
-then
-0169: set_fade_color 0 0 0
-start_mission 1
-end
-
-$ONMISSION = 1
-end_thread
-end
-
-jump @P1_MIS_PHONES
-
-:P2_MIS
-thread 'P2_MIS'
-
-:P2_IF
-if or
-$PORTLAND_P1_COMPLETED == 2
-$PORTLAND_P1_COMPLETED == 3
-$PORTLAND_P1_COMPLETED == 4
-then
-if
-$FLAG_P2_BADGER == 0
-then
-$FLAG_P2_BADGER = 1
-014D: text_pager 'MIS2_4' 140 2 0
-end
-jump @P2_LOOP
-else
-end_thread
-end
-
-:P2_LOOP
-wait 0
-if and
-$ONMISSION == 0
-IS_PLAYER_DEFINED $PLAYER_CHAR
-then
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
-    $PORTLAND_P1_COMPLETED == 2
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS2' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    start_mission ODD1
-    $ONMISSION = 1
-    0164: disable_marker $PORTLAND_MISSION_MARKER2
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-    
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
-    $PORTLAND_P1_COMPLETED == 3
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS3' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    start_mission ODD2
-    $ONMISSION = 1
-    0164: disable_marker $PORTLAND_MISSION_MARKER2
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-    
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
-    $PORTLAND_P1_COMPLETED == 4
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS4' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    start_mission ODD3
-    $ONMISSION = 1
-    0164: disable_marker $PORTLAND_MISSION_MARKER2
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-end
-goto @P2_LOOP
-
-end_thread
-
-:S1_MIS
-thread 'S1_MIS'
-
-:S1_LOOP
-wait 0
-
-if
-$PORTLAND_P1_COMPLETED == 5
-then
-gosub @S1_PAGER
-jump @S1_CHECKER
-else
-goto @S1_END
-end
-
-goto @S1_LOOP
-
-:S1_PAGER
-if
-$FLAG_8BALL_PAGER == 0
-then
-$FLAG_8BALL_PAGER = 1
-014D: text_pager 'MIS5_PA' 140 2 0
-return
-else
-return
-end
-
-:S1_CHECKER
-wait 0
-
-if and
-$ONMISSION == 0
-IS_PLAYER_DEFINED $PLAYER_CHAR
-then
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
-    $STAUNTON_P2_COMPLETED == 0
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS5' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    start_mission EIGHT1
-    $ONMISSION = 1
-    0164: disable_marker $STAUNTON_MISSION_MARKER1
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-    
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
-    $STAUNTON_P2_COMPLETED == 1
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS6' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    start_mission EIGHT2
-    $ONMISSION = 1
-    0164: disable_marker $STAUNTON_MISSION_MARKER1
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-    
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
-    $STAUNTON_P2_COMPLETED == 2
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS8' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    start_mission EIGHT3
-    $ONMISSION = 1
-    0164: disable_marker $STAUNTON_MISSION_MARKER1
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-    
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 374.3439 -568.5399 26.1748 radius 1.0 1.0 1.0
-    $STAUNTON_P2_COMPLETED == 3
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS9' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    start_mission EIGHT4
-    $ONMISSION = 1
-    0164: disable_marker $STAUNTON_MISSION_MARKER1
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-end
-
-goto @S1_CHECKER
-
-:S1_END
-end_thread
-
-:S2_MIS
-thread 'S2_MIS'
-
-:S2_LOOP
-wait 0
-//01E5: show_text_1number_highpriority GXT 'NUMBER' number $STAUNTON_P2_COMPLETED time 5000 flag 1  // ~s~You need $~1~ to compete.
-
-if
-    $STAUNTON_BONUS_MISSION0 == 1
-then
-    jump @S2_CHECKER
-else
-    if
-        $STAUNTON_BONUS_MISSION0 == 2
-    then
-        jump @S2_CHECKER2
-    else
-        goto @S2_END
-    end
-end
-
-goto @S2_LOOP
-
-:S2_CHECKER
-wait 0
-
-//01E5: show_text_1number_highpriority GXT 'M_PASS' number $FLAG_8BALL_PAGER time 5000 flag 1  // ~s~You need $~1~ to compete.
-
-if and
-$ONMISSION == 0
-IS_PLAYER_DEFINED $PLAYER_CHAR
-then
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 196.9798 -628.9261 26.1674 radius 1.0 1.0 1.0
-    $STAUNTON_BONUS_MISSION0 == 1
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS7' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    03BA: clear_cars_from_cube 239.5074 -613.5795 26.1682 144.3333 -627.5867 59.4458
-    start_mission ODD4
-    $ONMISSION = 1
-    0164: disable_marker $STAUNTON_MISSION_MARKER2
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-end
-
-goto @S2_CHECKER
-
-:S2_CHECKER2
-wait 0
-
-if and
-$ONMISSION == 0
-IS_PLAYER_DEFINED $PLAYER_CHAR
-then
-    if and
-    00FF:   actor $PLAYER_ACTOR 0 80.0474 -958.9118 26.1681 radius 1.0 1.0 1.0
-    $STAUNTON_BONUS_MISSION0 == 2
-    then
-    01B4: set_player $PLAYER_CHAR control 0
-    0217: text_styled 'MIS10' time 3000 style 2
-    0169: set_fade_color 0 0 0
-    fade 0 1500
-    wait 1500
-    03BA: clear_cars_from_cube 239.5074 -613.5795 26.1682 144.3333 -627.5867 59.4458
-    start_mission ODD5
-    $ONMISSION = 1
-    0164: disable_marker $STAUNTON_MISSION_MARKER2
-    01B4: set_player $PLAYER_CHAR control 1
-    end_thread
-    end
-end
-
-goto @S2_CHECKER2
-
-:S2_END
-end_thread
+{$INCLUDE PROP.sc}
+{$INCLUDE SHPROP.sc}
+{$INCLUDE MISTRG.sc}
 
 :PCOPS
 thread 'PCOPS'
@@ -788,12 +177,26 @@ wait 0
 if
 03C6:   current_island == 1
 then
+041F: override_hospital 2
+0420: override_police_station 2
 010D: set_player $PLAYER_CHAR wanted_level_to 5
+end
+
+if
+0256:   player $PLAYER_CHAR defined
+then
+0000:
+else
+wait 3000
+010D: set_player $PLAYER_CHAR wanted_level_to 0
+0110: clear_player $PLAYER_CHAR wanted_level
 end
 
 if
 03C6:   current_island == 2
 then
+041F: override_hospital 0
+0420: override_police_station 0
 goto @PCOPS_LOOP
 end
 
@@ -980,8 +383,8 @@ jf @C_SAVE_825
 if 
 03C6:   current_island == 2 
 jf @C_SAVE_795 
-if 
-  $FLAG_STAUNTON_SAVE_ON_RADAR == 0 // integer values 
+if
+  $FLAG_NEWPORT_SAVE_ON_RADAR == 0
 jf @C_SAVE_99 
 0164: disable_marker $STAUNTON_SAVE_MARKER 
 02A7: $STAUNTON_SAVE_MARKER = create_icon_marker_and_sphere 17 at 103.25 -469.1875 -100.0 
