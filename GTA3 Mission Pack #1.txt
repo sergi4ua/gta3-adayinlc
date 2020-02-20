@@ -101,10 +101,9 @@ $FLAG_8BALL_PAGER = 0
 0223: set_actor $PLAYER_ACTOR health_to 100
 0222: set_player $PLAYER_CHAR health_to 100
 $PORTLAND_P1_COMPLETED = 5 // 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
-$STAUNTON_P2_COMPLETED = 3 // 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
+$STAUNTON_P2_COMPLETED = 2 // 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
 $FLAG_PORTLAND_SAVE_ON_RADAR = 0 // integer values 
 $FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values
-$FLAG_NEWPORT_SAVE_ON_RADAR = 0 // newport safehouse 
 $FLAG_SHORESIDE_SAVE_ON_RADAR = 0
 $FLAG_STAUNTON_OPEN = 1 
 $FLAG_SHORESIDE_OPEN = 1     
@@ -384,7 +383,7 @@ if
 03C6:   current_island == 2 
 jf @C_SAVE_795 
 if
-  $FLAG_NEWPORT_SAVE_ON_RADAR == 0
+  $FLAG_STAUNTON_SAVE_ON_RADAR == 0
 jf @C_SAVE_99 
 0164: disable_marker $STAUNTON_SAVE_MARKER 
 02A7: $STAUNTON_SAVE_MARKER = create_icon_marker_and_sphere 17 at 103.25 -469.1875 -100.0 

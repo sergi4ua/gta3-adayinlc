@@ -172,6 +172,10 @@ if
 0118:   actor $MIS_ACTOR2 dead
 then
 00BC: show_text_highpriority GXT 'MIS9_5' time 5000 flag 1  // Text
+fade 0 1500
+wait 1500
+00A1: put_actor $PLAYER_ACTOR at 449.3266 -930.6668 38.0
+fade 1 1500
 goto @EIGHT4_PASS
 end
 goto @EIGHT4_OBJ1_LOOP
