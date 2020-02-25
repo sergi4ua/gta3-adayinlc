@@ -9,14 +9,13 @@ end_thread
 
 :P1_MIS
 thread 'P1_MIS'
-024A: $PHONE_PORTLAND1 = create_phone_at 940.2308 -230.1653
 
 :P1_IF_ALL_MISSIONS_COMPLETE
 if or
+$PORTLAND_P1_COMPLETED == 6
 $PORTLAND_P1_COMPLETED == 5
 $PORTLAND_P1_COMPLETED == 4
 $PORTLAND_P1_COMPLETED == 3
-$PORTLAND_P1_COMPLETED == 2
 then
 0164: disable_marker $PORTLAND_MISSION_MARKER1
 end_thread
@@ -53,6 +52,13 @@ if
 $PORTLAND_P1_COMPLETED == 1
 then
 0169: set_fade_color 0 0 0
+start_mission 11
+end
+
+if
+$PORTLAND_P1_COMPLETED == 2
+then
+0169: set_fade_color 0 0 0
 start_mission 1
 end
 
@@ -67,9 +73,9 @@ thread 'P2_MIS'
 
 :P2_IF
 if or
-$PORTLAND_P1_COMPLETED == 2
 $PORTLAND_P1_COMPLETED == 3
 $PORTLAND_P1_COMPLETED == 4
+$PORTLAND_P1_COMPLETED == 5
 then
 if
 $FLAG_P2_BADGER == 0
@@ -90,7 +96,7 @@ IS_PLAYER_DEFINED $PLAYER_CHAR
 then
     if and
     00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
-    $PORTLAND_P1_COMPLETED == 2
+    $PORTLAND_P1_COMPLETED == 3
     then
     01B4: set_player $PLAYER_CHAR control 0
     0217: text_styled 'MIS2' time 3000 style 2
@@ -106,7 +112,7 @@ then
     
     if and
     00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
-    $PORTLAND_P1_COMPLETED == 3
+    $PORTLAND_P1_COMPLETED == 4
     then
     01B4: set_player $PLAYER_CHAR control 0
     0217: text_styled 'MIS3' time 3000 style 2
@@ -122,7 +128,7 @@ then
     
     if and
     00FF:   actor $PLAYER_ACTOR 0 1150.1812 -454.2873 20.648 radius 1.0 1.0 1.0
-    $PORTLAND_P1_COMPLETED == 4
+    $PORTLAND_P1_COMPLETED == 5
     then
     01B4: set_player $PLAYER_CHAR control 0
     0217: text_styled 'MIS4' time 3000 style 2
@@ -147,7 +153,7 @@ thread 'S1_MIS'
 wait 0
 
 if
-$PORTLAND_P1_COMPLETED == 5
+$PORTLAND_P1_COMPLETED == 6
 then
 gosub @S1_PAGER
 jump @S1_CHECKER

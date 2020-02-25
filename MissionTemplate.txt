@@ -1,36 +1,37 @@
-:ODD4
-gosub @ODD4_CODE
+:CALL3
+thread 'CALL3'
+gosub @CALL3_CODE
 if 
 wasted_or_busted
-Jf @ODD4_SKIP 
-gosub @ODD4_FAIL
+Jf @CALL3_SKIP 
+gosub @CALL3_FAIL
 
-:ODD4_SKIP 
-gosub @ODD4_CLEANUP
+:CALL3_SKIP 
+gosub @CALL3_CLEANUP
 end_thread
 
-:ODD4_CODE
+:CALL3_CODE
 increment_mission_attempts
 $ONMISSION = 1
 0110: clear_player $PLAYER_CHAR wanted_level
 wait 10000
 
-:ODD4_PASS
+:CALL3_PASS
 wait 0
 01E3: text_1number_styled 'M_PASS' 10000 5000 ms 1 
 0109: player $PLAYER_CHAR money += 10000
 0110: clear_player $PLAYER_CHAR wanted_level
 0394: play_music 1 
-gosub @ODD4_SKIP
+gosub @CALL3_SKIP
 return
 
-:ODD4_FAIL
+:CALL3_FAIL
 00BA: text_styled 'M_FAIL' 5000 ms 1
 $ONMISSION = 0 
 mission_cleanup
 return
 
-:ODD4_CLEANUP 
+:CALL3_CLEANUP 
 $ONMISSION = 0
 mission_cleanup
 return

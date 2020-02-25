@@ -1,4 +1,5 @@
 :ODD5
+thread 'ODD5'
 gosub @ODD5_CODE
 if 
 wasted_or_busted
