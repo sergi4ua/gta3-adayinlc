@@ -31,7 +31,8 @@ IS_MODEL_AVAILABLE #SHOTGUN
 IS_MODEL_AVAILABLE #PREDATOR
 jf @ODD2_IF_MODELS
 fade 1 1500
-00BC: show_text_highpriority GXT 'MIS3_B' time 7000 flag 1
+00BB: show_text_lowpriority GXT 'MIS3_A' time 5000 flag 1  // Text
+00BB: show_text_lowpriority GXT 'MIS3_B' time 7000 flag 1  // Text
 00A5: $MISSION_BOAT1 = create_car #PREDATOR at 841.1928 -1114.5583 3.0
 0175: set_car $MISSION_BOAT1 z_angle_to 180.0
 032B: $MISSION_SNIPER = create_weapon_pickup #SNIPER 14 ammo 10 at 835.654 -1091.1638 6.824

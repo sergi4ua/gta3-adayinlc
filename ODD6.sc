@@ -1,0 +1,228 @@
+:ODD6
+thread 'ODD6'
+gosub @ODD6_CODE
+if 
+wasted_or_busted
+Jf @ODD6_SKIP 
+gosub @ODD6_FAIL
+
+:ODD6_SKIP 
+gosub @ODD6_CLEANUP
+end_thread
+
+:ODD6_CODE
+increment_mission_attempts
+$ONMISSION = 1
+0110: clear_player $PLAYER_CHAR wanted_level
+REQUEST_MODEL #PREDATOR
+LOAD_ALL_MODELS_NOW
+00A5: $MIS_CAR = create_car #PREDATOR at 492.7595 -77.6318 4.4571
+SET_CAR_HEADING $MIS_CAR 196.12
+$MIS_MONEY = 5000
+fade 1 1500
+
+:ODD6_OBJ1
+00BC: show_text_highpriority GXT 'MIS12_A' time 7000 flag 1
+0186: $MIS_CARMARKER = create_marker_above_car $MIS_CAR
+
+:ODD6_OBJ1_LOOP
+wait 0
+
+if
+    00DC:   player $PLAYER_CHAR driving $MIS_CAR
+then
+    REMOVE_BLIP $MIS_CARMARKER
+    goto @ODD6_OBJ2
+end
+
+goto @ODD6_OBJ1_LOOP
+
+:ODD6_OBJ2
+00BC: show_text_highpriority GXT 'MIS12_B' time 10000 flag 1
+$MIS_CURRENT_CHECKPOINT = 0
+$MIS_CHECKPOINT_X = 498.13
+$MIS_CHECKPOINT_Y = -156.89
+$MIS_CHECKPOINT_Z = 0.2
+$MIS_RADAR_FLAG = 0
+$TIMER = 26000
+014E: start_timer_at $TIMER
+02A8: $MIS_MARKER2 = create_marker 5 at 561.1 -1077.6 0.8
+
+:ODD6_OBJ2_LOOP
+wait 0
+024F: create_corona 7.0 6 0 with_color 0 0 100 at_point $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+
+if
+    8442:   not player $PLAYER_CHAR in_car $MIS_CAR
+then
+    goto @ODD6_FAIL
+end
+
+if
+    00FE:   actor $PLAYER_ACTOR 0 $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z radius 8.0 8.0 5.0
+then
+    $MIS_CURRENT_CHECKPOINT += 1
+    00A0: store_actor $PLAYER_ACTOR position_to $MIS_TEMPX $MIS_TEMPY $MIS_TEMPZ
+    018C: play_sound 94 at $MIS_TEMPX $MIS_TEMPY $MIS_TEMPZ
+    $MIS_RADAR_FLAG = 0
+    REMOVE_BLIP $MIS_CHECKPOINT_BLIP
+    $TIMER += 10000
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 0
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at 498.1388 -156.8904 0.2602
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 1
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 554.093
+    $MIS_CHECKPOINT_Y = -230.70
+    $MIS_CHECKPOINT_Z = 0.2474
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 2
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 616.43 
+    $MIS_CHECKPOINT_Y = -287.39
+    $MIS_CHECKPOINT_Z = 0.2474
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 3
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 465.033
+    $MIS_CHECKPOINT_Y = -512.54
+    $MIS_CHECKPOINT_Z = 0.5947
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 4
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 652.21
+    $MIS_CHECKPOINT_Y = -708.61
+    $MIS_CHECKPOINT_Z = 0.6385
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 5
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 677.8473
+    $MIS_CHECKPOINT_Y = -1008.72
+    $MIS_CHECKPOINT_Z = 0.8
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 6
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 577.2612
+    $MIS_CHECKPOINT_Y = -1365.53
+    $MIS_CHECKPOINT_Z = 0.5
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 7
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 1092.0851
+    $MIS_CHECKPOINT_Y = -1214.18
+    $MIS_CHECKPOINT_Z = 0.9
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 8
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 800.5584
+    $MIS_CHECKPOINT_Y = -1146.66
+    $MIS_CHECKPOINT_Z = 0.8
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if and
+    $MIS_CURRENT_CHECKPOINT == 9
+    $MIS_RADAR_FLAG == 0
+then
+    $MIS_CHECKPOINT_X = 561.139
+    $MIS_CHECKPOINT_Y = -1077.64
+    $MIS_CHECKPOINT_Z = 0.8
+    $MIS_RADAR_FLAG = 1
+    018A: $MIS_CHECKPOINT_BLIP = create_checkpoint_at $MIS_CHECKPOINT_X $MIS_CHECKPOINT_Y $MIS_CHECKPOINT_Z
+end
+
+if
+$TIMER == 0
+then
+TEXT_CLEAR_ALL
+00BC: show_text_highpriority GXT 'OUTTIME' time 4000 flag 1 
+goto @ODD6_FAIL
+end
+
+if
+$MIS_CURRENT_CHECKPOINT == 10
+then
+0058: $MIS_MONEY += $TIMER
+goto @ODD6_PASS
+end
+
+goto @ODD6_OBJ2_LOOP
+
+:ODD6_LOOP
+wait 0
+goto @ODD6_LOOP
+
+:ODD6_PASS
+wait 0
+01E3: text_1number_styled 'M_PASS' $MIS_MONEY 5000 ms 1 
+0109: player $PLAYER_CHAR money += $MIS_MONEY
+0110: clear_player $PLAYER_CHAR wanted_level
+0394: play_music 1 
+030C: set_mission_points += 1
+0318: set_latest_mission_passed 'MIS12'
+gosub @ODD6_SKIP
+return
+
+:ODD6_FAIL
+00BA: text_styled 'M_FAIL' 5000 ms 1
+$ONMISSION = 0 
+02A7: $STAUNTON_MISSION_MARKER4 = create_icon_marker_and_sphere 5 at 502.5407 -66.3449 4.2155
+create_thread @S2_MIS
+mission_cleanup
+return
+
+:ODD6_CLEANUP 
+$ONMISSION = 0
+RELEASE_MODEL #PREDATOR
+REMOVE_REFERENCES_TO_CAR $MIS_CAR
+REMOVE_BLIP $MIS_CARMARKER
+REMOVE_BLIP $MIS_CHECKPOINT_BLIP
+REMOVE_BLIP $MIS_MARKER2
+$TIMER = 0
+mission_cleanup
+return

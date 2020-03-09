@@ -20,7 +20,7 @@ end
 if
 $PROPERTY2_BOUGHT == 0
 then
-0213: $PROPERTY_PICKUP2 = create_pickup #BRIEFCASE type 3 at 332.4 -432.43 23.4
+0213: $PROPERTY_PICKUP2 = create_pickup #BRIEFCASE type 3 at 289.8 -432.4 26.0
 end
 
 018B: show_on_radar $PROPERTY_ICON0 2
@@ -223,9 +223,9 @@ then
 fade 0 1500
 wait 1500
 TOGGLE_WIDESCREEN TRUE
-0055: put_player $PLAYER_CHAR at 332.2815 -435.2887 23.459
-015F: set_camera_position 336.9864 -449.1142 22.8719 rotation 0.0 0.0 0.0
-0160: point_camera 336.0615 -431.572 27.459 switchstyle 2
+0055: put_player $PLAYER_CHAR at 289.873 -436.3943 26.0248
+015F: set_camera_position 295.0234 -446.0459 26.0248 rotation 0.0 0.0 0.0
+0160: point_camera 293.3395 -431.3837 26.0248 switchstyle 2
 fade 1 1500
 wait 1500
 TEXT_CLEAR_ALL

@@ -579,6 +579,8 @@ wait 0
 0394: play_music 1 
 REMOVE_BLIP $STAUNTON_MISSION_MARKER3
 0318: set_latest_mission_passed 'MIS10'
+02A7: $STAUNTON_MISSION_MARKER4 = create_icon_marker_and_sphere 5 at 502.5407 -66.3449 4.2155
+create_thread @S2_MIS
 gosub @ODD5_SKIP
 return
 

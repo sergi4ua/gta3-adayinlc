@@ -45,7 +45,7 @@ then
     1@ == 0
     0@ == 0
     then
-    02A7: $NEWPORT_SAVE_MARKER = create_icon_marker_and_sphere 17 at 332.2 -432.19 23.4 
+    02A7: $NEWPORT_SAVE_MARKER = create_icon_marker_and_sphere 17 at 289.9 -431.6 26.0
     018B: show_on_radar $NEWPORT_SAVE_MARKER 2
     1@ = 1
     end 
@@ -58,7 +58,7 @@ if and
 1@ == 1
 2@ == 0
 then
-03BC: $NEWPORT_ENTRANCE_SPHERE = create_sphere 332.2 -432.19 23.4 1.5
+03BC: $NEWPORT_ENTRANCE_SPHERE = create_sphere 289.90 -431.67 26.0 1.5
 2@ = 1
 end
 
@@ -67,7 +67,7 @@ if and
 1@ == 1
 2@ == 1
 //00FF:   player $PLAYER_CHAR 0 332.2 -432.19 23.4 radius 1.0 1.0 2.0
-00FF:   actor $PLAYER_ACTOR 0 332.2 -432.19 23.4 radius 1.0 1.0 1.5
+00FF:   actor $PLAYER_ACTOR 0 289.90 -431.67 26.02 radius 1.0 1.0 1.5
 then
 $ONMISSION = 1
 01B4: set_player $PLAYER_CHAR control 0
@@ -123,7 +123,7 @@ then
     0@ = 0
     2@ = 0
     1@ = 0
-    0055: put_player $PLAYER_CHAR at 332.2815 -435.28 23.459
+    0055: put_player $PLAYER_CHAR at 289.763 -434.3276 26.0248
     fade 1 1500
     $ONMISSION = 0
     01B4: set_player $PLAYER_CHAR control 1

@@ -1,6 +1,7 @@
 :INTRO
 thread 'INTRO'
 $ONMISSION = 1
+SET_DEATHARREST_STATE 0
 SET_CAR_DENSITY_MULTIPLIER 0.0
 REQUEST_MODEL #BUS
 
@@ -47,7 +48,7 @@ goto @INTRO_END
 end
 
 if
-    00E1:   player 0 pressed_button 14
+    0AB0: key_pressed 0x20
 then
     goto @INTRO_DEBUG_END
 end
@@ -127,7 +128,7 @@ goto @INTRO_END
 end
 
 if
-    00E1:   player 0 pressed_button 14
+    0AB0: key_pressed 0x20
 then
     goto @INTRO_DEBUG_END
 end
@@ -197,7 +198,7 @@ goto @INTRO_END
 end
 
 if
-    00E1:   player 0 pressed_button 14
+    0AB0: key_pressed 0x20
 then
     goto @INTRO_DEBUG_END
 end
@@ -275,7 +276,7 @@ goto @INTRO_END
 end
 
 if
-    00E1:   player 0 pressed_button 14
+    0AB0: key_pressed 0x20
 then
     goto @INTRO_DEBUG_END
 end
@@ -316,7 +317,7 @@ goto @INTRO_END
 end
 
 if
-    00E1:   player 0 pressed_button 14
+    0AB0: key_pressed 0x20
 then
     goto @INTRO_DEBUG_END
 end
@@ -432,7 +433,7 @@ wait 1500
 TOGGLE_WIDESCREEN FALSE
 0373: set_camera_directly_behind_player
 02EB: restore_camera_with_jumpcut
-0055: put_player $PLAYER_CHAR at 862.5598 -301.5593 7.186
+012A: put_player $PLAYER_CHAR at 862.5598 -301.5593 7.186 and_remove_from_car
 0171: set_player $PLAYER_CHAR z_angle_to 280.0
 01B4: set_player $PLAYER_CHAR control 1
 SET_CAR_DENSITY_MULTIPLIER 1.0
@@ -455,5 +456,6 @@ MARK_CHAR_AS_NO_LONGER_NEEDED $INTRO_MAN3
 MARK_CHAR_AS_NO_LONGER_NEEDED $INTRO_MAN4
 MARK_CAR_AS_NO_LONGER_NEEDED $INTRO_CAR
 MARK_CAR_AS_NO_LONGER_NEEDED $INTRO_CAR2
+01C3: remove_references_to_car $ALLEGRI_BONUS
 MISSION_HAS_FINISHED
 end_thread

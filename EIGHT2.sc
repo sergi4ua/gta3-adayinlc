@@ -336,6 +336,7 @@ $PROPERTIES_AVAILABLE = 1
 00BC: show_text_highpriority GXT 'MIS6_P' time 4000 flag 1  // Text
 02A7: $STAUNTON_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 196.8638 -628.8686 25.1673 
 $STAUNTON_BONUS_MISSION0 = 1
+03E5: show_text_box 'HELPDLC'
 create_thread @S2_MIS
 gosub @EIGHT2_SKIP
 return

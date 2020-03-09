@@ -1,10 +1,11 @@
-// complete by Demarest
+// MAIN.SCM SCRIPT BY SERGI4UA
+// https://www.sergi4ua.com
 DEFINE OBJECTS 3
 DEFINE OBJECT (noname)                
 DEFINE OBJECT INDHELIX_BARRIER         // Object number -1
 DEFINE OBJECT LOD_LAND014              // Object number -2
 
-DEFINE MISSIONS 13
+DEFINE MISSIONS 15
 DEFINE MISSION 0 AT @CALL1
 DEFINE MISSION 1 AT @CALL2
 DEFINE MISSION 2 AT @ODD1
@@ -18,6 +19,8 @@ DEFINE MISSION 9 AT @EIGHT4
 DEFINE MISSION 10 AT @ODD5
 DEFINE MISSION 11 AT @CALL3
 DEFINE MISSION 12 AT @INTRO
+DEFINE MISSION 13 AT @FINALE
+DEFINE MISSION 14 AT @ODD6
 
 //-------------MAIN---------------
 03A4: name_thread 'MAIN'
@@ -43,7 +46,9 @@ SET_WB_CHECK_TO 0
 SET_OBJECT_Z_ANGLE $STAUNTON_HIDEOUT_DOOR2 180.0
 029B: $56 = init_object #NEWTOWERDOOR1 at -664.3125 2.875 19.5 
 01C7: remove_object_from_mission_cleanup_list $56 
-0177: set_object $56 z_angle_to 180.0
+0177: set_object $56 z_angle_to 180.0  
+042C: set_total_missions_to 14
+030D: set_total_mission_points_to 100
 {$INCLUDE INITOBJECT.sc}
 {$INCLUDE PICKUPS.sc}
 {$INCLUDE CARS.sc}
@@ -77,12 +82,13 @@ SET_PLAYER_HEADING $PLAYER_CHAR 180.0
 0054: store_player $PLAYER_CHAR position_to $var1 $var2 $var3
 0213: $ALLEGRI_PICKUP1 = create_pickup #BODYARMOUR type 14 at 1166.6113 -550.179 21.5984 
 wait 4000 
-start_mission INTRO
+start_mission INTRO // UNCOMMENT ON RELEASE ! 
 02A7: $PORTLAND_MISSION_MARKER1 = create_icon_marker_and_sphere 8 at 938.4176 -230.3259 4.943
 //02A7: $PORTLAND_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 1150.1073 -454.2015 20.648        // COMMENT IF RELEASE
 //02A7: $STAUNTON_MISSION_MARKER1 = create_icon_marker_and_sphere 7 at 374.3439 -568.5399 25.1748         // COMMENT IF RELEASE
 //02A7: $STAUNTON_MISSION_MARKER2 = create_icon_marker_and_sphere 5 at 196.8638 -628.8686 25.1673        // COMMENT IF RELEASE
 //02A7: $STAUNTON_MISSION_MARKER3 = create_icon_marker_and_sphere 9 at 79.9823 -958.9354 25.1681
+//02A7: $STAUNTON_MISSION_MARKER4 = create_icon_marker_and_sphere 5 at 502.5407 -66.3449 4.2155
 024A: $PHONE_PORTLAND1 = create_phone_at 940.2308 -230.1653
 
 /* PROPERTY ICONS */
@@ -103,7 +109,7 @@ $FLAG_8BALL_PAGER = 0
 0177: set_object $PLAYER_DOOR z_angle_to 244.0
 0223: set_actor $PLAYER_ACTOR health_to 100
 0222: set_player $PLAYER_CHAR health_to 100
-$PORTLAND_P1_COMPLETED = 1 // 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
+$PORTLAND_P1_COMPLETED = 0 // 5  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 5
 $STAUNTON_P2_COMPLETED = 0 // 2  // MUST BE FALSE ( ZERO ) ON RELEASE !!    // it was 2
 $FLAG_PORTLAND_SAVE_ON_RADAR = 0 // integer values 
 $FLAG_STAUNTON_SAVE_ON_RADAR = 0 // integer values
@@ -115,9 +121,21 @@ $PROPERTIES_AVAILABLE = 0 // 1  // was 1     // MUST BE FALSE ( ZERO ) ON RELEAS
 
 $STAUNTON_BONUS_MISSION0 = 0 // was 2 // MUST BE ZERO ON RELEASE
 
+$FINALE_TEXT_SHOWN = 0
+
+/* SWITCH STAUNTON ROADS ON */
+SWITCH_ROADS_ON 619.5625 -911.5 45.0 834.25 -954.5 32.0 
+SWITCH_ROADS_ON 659.5625 200.0 -20.0 945.75 147.5 5.0 
+SWITCH_ROADS_ON 529.5625 106.5 -30.0 581.375 65.6875 0.0 
+
+/* SWITCH SHORESIDE VALE ROADS ON */
+
+SWITCH_ROADS_ON 496.6875 75.5 -30.0 484.0 44.1875 0.0 
+SWITCH_ROADS_ON -46.75 -648.0 39.0 -69.0625 -614.0 50.0 
+
 0318: set_latest_mission_passed 'NOMIS'
 0109: player $PLAYER_CHAR money += 25000  // UNCOMMENT ON RELEASE
-//0109: player $PLAYER_CHAR money += 120000
+//0109: player $PLAYER_CHAR money += 1025000 // comment on release
 REQUEST_MODEL #INFERNUS
 LOAD_REQUESTED_MODELS
 
@@ -127,20 +145,22 @@ wait 0
 until 0248:   model #INFERNUS available
 00A5: $ALLEGRI_BONUS = create_car #INFERNUS at 858.6524 -313.2243 9.0762
 0175: set_car $ALLEGRI_BONUS z_angle_to 280.0
-01C3: remove_references_to_car $ALLEGRI_BONUS
 RELEASE_MODEL #INFERNUS 
 
 //0055: put_player $PLAYER_CHAR at 354.3439 -568.5399 25.1748 // COMMENT IF DONE WITH STAUNTON !!!!! 
 //0055: put_player $PLAYER_CHAR at -661.3479 687.7099 105.6733
- 010D: set_player $PLAYER_CHAR wanted_level_to 0 // COMMENT IF DONE WITH STAUNTON !!!!!
+// 010D: set_player $PLAYER_CHAR wanted_level_to 0 // COMMENT IF DONE WITH STAUNTON !!!!!
+0055: put_player $PLAYER_CHAR at 513.1955 -81.2835 4.6881 // COMMENT IF DONE WITH STAUNTON !!!!!
 0110: clear_player $PLAYER_CHAR wanted_level   // COMMENT IF DONE WITH STAUNTON !!!!!
 
-//0213: $TESTPSAVE = create_pickup #PSAVE type 1 at 119.7002 -477.0096 15.9403  // BUGS OUT ! SILENT HELP!
+//0213: $TESTPSAVE = create_pickup #PSAVE type 1 at 119.7002 -477.0096 15.9403  // BUGS OUT ! SILENT HELP PLZ!
  
 create_thread @PROP
 create_thread @PROPM
 create_thread @SHPROP // newport safehouse
 create_thread_wb @MISTRG
+create_thread_wb @RAMPAGE
+create_thread @FIN
 create_thread @PCOPS
 create_thread @I_SAVE
 create_thread @I_RSTRT
@@ -149,6 +169,9 @@ create_thread @C_RSTRT
 create_thread @S_SAVE
 create_thread @S_RSTRT
 
+fade 1 1500 // COMMENT ON RELEASE
+//0055: put_player $PLAYER_CHAR at -363.1943 237.0361 60.5304 // COMMENT ON RELEASE
+
 :MAIN_138
 0001: wait 250 ms 
 0002: jump @MAIN_138 
@@ -156,6 +179,66 @@ create_thread @S_RSTRT
 {$INCLUDE PROP.sc}
 {$INCLUDE SHPROP.sc}
 {$INCLUDE MISTRG.sc}
+{$INCLUDE RAMPAGE.sc}
+
+:FIN
+thread 'FIN'
+0@ = 0
+
+:FIN_2
+wait 0
+
+if and
+    010A:   player $PLAYER_CHAR money > 999999
+    0256:   player $PLAYER_CHAR defined
+    $ONMISSION == 0
+then
+    if
+        $FINALE_TEXT_SHOWN == 0
+    then
+        $FINALE_TEXT_SHOWN = 1
+        03E5: show_text_box 'GREAT1'
+        03E7: flash_hud 8
+    end
+        0189: $MANSION_CHECKPOINT = unknown_create_checkpoint_at -363.4988 249.7205 59.7
+        16@ = 0
+        0@ = 1
+        goto @FIN_CHECKER
+end
+
+goto @FIN_2
+
+:FIN_CHECKER
+wait 0
+
+if and
+    0@ == 1
+    16@ > 4999
+then
+    03E7: flash_hud -1
+    0@ += 1
+    16@ = 0
+end 
+
+if and
+    $ONMISSION == 0
+    00FF:   actor $PLAYER_ACTOR 0 -363.5692 249.7412 59.7 radius 1.5 1.5 1.5
+    0256:   player $PLAYER_CHAR defined
+then
+    0109: player $PLAYER_CHAR money += -1000000
+    REMOVE_BLIP $MANSION_CHECKPOINT
+    01B4: set_player $PLAYER_CHAR control 0
+    fade 0 1500
+    wait 1500
+    0395: clear_area 1 at -363.5692 249.7412 range 100.00 1.0
+    start_mission FINALE
+    goto @FIN_END
+end
+
+goto @FIN_CHECKER
+
+:FIN_END
+end_thread
 
 :PCOPS
 thread 'PCOPS'
@@ -709,3 +792,5 @@ jump @S_RSTRT_10
 {$INCLUDE ODD5.sc}
 {$INCLUDE CALL3.sc}
 {$INCLUDE INTRO.sc}
+{$INCLUDE FINALE.sc}
+{$INCLUDE ODD6.sc}

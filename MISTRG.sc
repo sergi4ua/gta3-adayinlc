@@ -268,7 +268,13 @@ else
     then
         jump @S2_CHECKER2
     else
-        goto @S2_END
+        if
+        $STAUNTON_BONUS_MISSION0 == 3
+        then
+            jump @S2_CHECKER3
+        else
+            goto @S2_END
+        end
     end
 end
 
@@ -329,6 +335,32 @@ then
 end
 
 goto @S2_CHECKER2
+
+:S2_CHECKER3
+wait 0
+
+if and
+$ONMISSION == 0
+IS_PLAYER_DEFINED $PLAYER_CHAR
+then
+    if and
+    00FF:   actor $PLAYER_ACTOR 0 502.5407 -66.3449 4.2155 radius 1.0 1.0 1.0
+    $STAUNTON_BONUS_MISSION0 == 3
+    then
+    01B4: set_player $PLAYER_CHAR control 0
+    0217: text_styled 'MIS12' time 3000 style 2
+    0169: set_fade_color 0 0 0
+    fade 0 1500
+    wait 1500
+    start_mission ODD6
+    $ONMISSION = 1
+    0164: disable_marker $STAUNTON_MISSION_MARKER3
+    01B4: set_player $PLAYER_CHAR control 1
+    end_thread
+    end
+end
+
+goto @S2_CHECKER3
 
 :S2_END
 end_thread
